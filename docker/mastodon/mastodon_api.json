@@ -1,0 +1,99 @@
+{
+  "uuid": "442ce5ce-0cb1-4b80-9277-c870776d36f6",
+  "lastMigration": 29,
+  "name": "Mastodon API",
+  "endpointPrefix": "api/v1",
+  "latency": 0,
+  "port": 3000,
+  "hostname": "",
+  "routes": [
+    {
+      "uuid": "b1e2c3d4-5678-4abc-9def-1234567890ab",
+      "documentation": "Get toots for a hashtag",
+      "method": "get",
+      "endpoint": "timelines/tag/:hashtag",
+      "responses": [
+        {
+          "uuid": "c2d3e4f5-6789-4bcd-8efa-2345678901bc",
+          "body": "[\n  {\n    \"id\": \"114575340128134545\",\n    \"created_at\": \"2025-05-26T17:35:46.783Z\",\n    \"in_reply_to_id\": null,\n    \"in_reply_to_account_id\": null,\n    \"sensitive\": false,\n    \"spoiler_text\": \"\",\n    \"visibility\": \"public\",\n    \"language\": \"de\",\n    \"uri\": \"http://example.social/users/user1/statuses/114575340128134545\",\n    \"url\": \"http://example.social/@user1/114575340128134545\",\n    \"replies_count\": 0,\n    \"reblogs_count\": 4,\n    \"favourites_count\": 3,\n    \"edited_at\": null,\n    \"favourited\": false,\n    \"reblogged\": false,\n    \"muted\": false,\n    \"bookmarked\": false,\n    \"content\": \"First toot for #{{urlParam 'hashtag'}}\",\n    \"filtered\": [],\n    \"reblog\": null,\n    \"application\": {\n      \"name\": \"Web\",\n      \"website\": null\n    },\n    \"account\": {\n      \"id\": \"112792691639292899\",\n      \"username\": \"user1\",\n      \"acct\": \"user1\",\n      \"display_name\": \"User 1\",\n      \"locked\": false,\n      \"bot\": false,\n      \"discoverable\": null,\n      \"indexable\": false,\n      \"group\": false,\n      \"created_at\": \"2024-07-15T00:00:00.000Z\",\n      \"note\": \"\",\n      \"url\": \"http://example.social/@user1\",\n      \"uri\": \"http://example.social/users/user1\",\n      \"avatar\": \"\",\n      \"avatar_static\": \"\",\n      \"header\": \"\",\n      \"header_static\": \"\",\n      \"followers_count\": 27,\n      \"following_count\": 15,\n      \"statuses_count\": 57,\n      \"last_status_at\": \"2025-06-03\",\n      \"hide_collections\": null,\n      \"noindex\": false,\n      \"emojis\": [],\n      \"roles\": [],\n      \"fields\": [\n        {\n          \"name\": \"Alter\",\n          \"value\": \"\",\n          \"verified_at\": null\n        },\n        {\n          \"name\": \"Beruf\",\n          \"value\": \"\",\n          \"verified_at\": null\n        }\n      ]\n    },\n    \"media_attachments\": [],\n    \"mentions\": [],\n    \"tags\": [\n      {\n        \"name\": \"test\",\n        \"url\": \"http://example.social/tags/test\"\n      }\n    ],\n    \"emojis\": [],\n    \"card\": null,\n    \"poll\": null\n  },\n  {\n    \"id\": \"114567292161388494\",\n    \"created_at\": \"2025-05-25T07:29:04.000Z\",\n    \"in_reply_to_id\": null,\n    \"in_reply_to_account_id\": null,\n    \"sensitive\": false,\n    \"spoiler_text\": \"\",\n    \"visibility\": \"public\",\n    \"language\": \"de\",\n    \"uri\": \"http://example.social/users/user2/statuses/114567292136764072\",\n    \"url\": \"http://example.social/@user2/114567292136764072\",\n    \"replies_count\": 0,\n    \"reblogs_count\": 1,\n    \"favourites_count\": 0,\n    \"edited_at\": \"2025-05-25T07:29:38.000Z\",\n    \"favourited\": false,\n    \"reblogged\": false,\n    \"muted\": false,\n    \"bookmarked\": false,\n    \"content\": \"Second toot for #{{urlParam 'hashtag'}}\",\n    \"filtered\": [],\n    \"reblog\": null,\n    \"account\": {\n      \"id\": \"114229346748292044\",\n      \"username\": \"user2\",\n      \"acct\": \"user2@example.social\",\n      \"display_name\": \"User 2\",\n      \"locked\": false,\n      \"bot\": false,\n      \"discoverable\": false,\n      \"indexable\": false,\n      \"group\": false,\n      \"created_at\": \"2025-02-15T00:00:00.000Z\",\n      \"note\": \"\",\n      \"url\": \"http://example.social/@user2\",\n      \"uri\": \"http://example.social/users/user2\",\n      \"avatar\": \"\",\n      \"avatar_static\": \"\",\n      \"header\": \"\",\n      \"header_static\": \"\",\n      \"followers_count\": 129,\n      \"following_count\": 43,\n      \"statuses_count\": 3065,\n      \"last_status_at\": \"2025-06-05\",\n      \"hide_collections\": false,\n      \"emojis\": [],\n      \"fields\": []\n    },\n    \"media_attachments\": [],\n    \"mentions\": [],\n    \"tags\": [\n      {\n        \"name\": \"test\",\n        \"url\": \"http://example.social/tags/test\"\n      }\n    ],\n    \"emojis\": [],\n    \"card\": null,\n    \"poll\": null\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "hashtag"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "folders": [],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "d272c953-26b1-4f7b-a36f-9b5339345278"
+    },
+    {
+      "type": "route",
+      "uuid": "706bded3-2a37-4ced-9c98-535528b507a9"
+    },
+    {
+      "type": "route",
+      "uuid": "28737823-e0af-46a6-9c81-feab0e9092c4"
+    },
+    {
+      "type": "route",
+      "uuid": "2df6ed73-70e6-4c53-978d-755522e1b8c4"
+    },
+    {
+      "type": "route",
+      "uuid": "469c7a13-58d9-4299-b2a0-612166ba8438"
+    },
+    {
+      "type": "route",
+      "uuid": "9107d876-ec38-4823-9871-4c9a563d5731"
+    }
+  ]
+}

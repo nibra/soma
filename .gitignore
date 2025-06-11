@@ -1,0 +1,5 @@
+/.soma/
+/docs/
+/logs/
+/.coverage
+/once.py

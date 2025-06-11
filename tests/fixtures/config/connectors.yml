@@ -1,0 +1,12 @@
+connectors:
+  email:
+    class: soma.connectors.email_connector.EmailConnector
+    imap_host: http://localhost:3143
+    smtp_host: http://localhost:3025
+    user: user1@localhost
+    password: password1
+
+  mastodon:
+    class: soma.connectors.mastodon_connector.MastodonConnector
+    instance_url: http://localhost:3001
+    access_token: your_access_token_here

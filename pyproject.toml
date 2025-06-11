@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "soma"
+version = "0.1.0"
+description = "Stream-Oriented Message-Driven Agent Architecture (SOMA)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Niels Braczek", email = "nbraczek@bsds.de" }
+]
+dependencies = [
+    "apache-flink==2.0.0",
+    "imap-tools==1.10.0",
+    "kafka-python==2.2.11",
+    "pytest==8.4.0",
+    "pytest-cov==6.1.1",
+    "pytest-testdox==3.1.0",
+    "PyYAML==6.0.2",
+    "requests==2.32.3",
+    "SQLAlchemy==2.0.41"
+]
+
+[project.urls]
+Homepage = "https://github.com/nibra/soma"
+
+[project.scripts]
+soma = "soma.cli:main"

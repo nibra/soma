@@ -1,0 +1,85 @@
+# Event Bus integration tests
+#
+# Make sure to start the Docker containers before executing these tests.
+# Kafka will be available at http://localhost:9092
+
+import time
+import pytest
+from soma.eventbus.memory_bus import InMemoryEventBus
+from soma.eventbus.kafka_bus import KafkaEventBus
+
+
+@pytest.mark.describe("Event Bus")
+class TestEventBus:
+    def _getInMemoryEventBus(self):
+        return InMemoryEventBus()
+
+    def _getKafkaEventBus(self):
+        from kafka.admin import KafkaAdminClient, NewTopic
+        from kafka.errors import TopicAlreadyExistsError, UnknownTopicOrPartitionError
+
+        topics = ["topic1", "topic2"]
+
+        admin = KafkaAdminClient(bootstrap_servers="localhost:9092")
+        try:
+            admin.delete_topics(topics=topics)
+        except UnknownTopicOrPartitionError:
+            pass  # Ignore if topics do not exist
+
+        # Wait until topics are deleted
+        self.wait(lambda: any(t in admin.list_topics() for t in topics), 5)
+
+        new_topics = [NewTopic(name=t, num_partitions=1, replication_factor=1) for t in topics]
+        try:
+            admin.create_topics(new_topics)
+            # Wait until topics are created
+            self.wait(lambda: not all(t in admin.list_topics() for t in topics), 5)
+        except TopicAlreadyExistsError:
+            pass
+
+        admin.close()
+
+        return KafkaEventBus(bootstrap_servers="localhost:9092", group_id="soma-group")
+
+    def wait(self, condition, timeout_seconds):
+        timeout = time.time() + timeout_seconds  # wait up to 5 seconds
+        while condition() and time.time() < timeout:
+            time.sleep(0.5)
+
+    @pytest.mark.it("publishes and subscribes to messages assigned to topics")
+    @pytest.mark.parametrize("bus_type", [
+        "InMemoryEventBus",
+        "KafkaEventBus"
+    ])
+    def test_publish_and_subscribe(self, bus_type):
+        received = []
+
+        def handler_1(msg):
+            received.append(("handler1", msg))
+
+        def handler_2(msg):
+            received.append(("handler2", msg))
+
+        get_event_bus = "_get" + bus_type
+        bus = getattr(self, get_event_bus)()
+
+        bus.subscribe("topic1", handler_1)
+        bus.subscribe("topic1", handler_2)
+        bus.subscribe("topic2", lambda msg: received.append(("handler3", msg)))
+
+        bus.start()
+
+        bus.publish("topic1", {"value": 42})
+        bus.publish("topic2", {"status": "ok"})
+
+        self.wait(lambda: len(received) < 3, 5)
+
+        bus.stop()
+
+        expected = [
+            ("handler1", {"value": 42}),
+            ("handler2", {"value": 42}),
+            ("handler3", {"status": "ok"}),
+        ]
+        assert all(item in received for item in expected)
+        assert len(received) == 3
