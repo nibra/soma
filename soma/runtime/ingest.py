@@ -1,6 +1,3 @@
-from typing import Iterable
-
-from soma.core.message import Message
 from soma.core.registry import ConnectorRegistry
 from importlib import import_module
 from soma.eventbus.memory_bus import InMemoryEventBus
@@ -33,6 +30,7 @@ def ingest(config, event_bus):
                 key="raw"
             )
 
+
 if __name__ == "__main__":
     import yaml
     import re
@@ -42,6 +40,7 @@ if __name__ == "__main__":
         import requests
         response = requests.post("http://localhost:8080/api/service/reset")
         assert response.status_code == 200, "Failed to reset GreenMail server"
+
 
     _reset_greenmail()
 
