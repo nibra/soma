@@ -5,36 +5,38 @@
 # :author: Niels Braczek <nbraczek@bsds.de>
 # :license: MIT License
 
-from dataclasses import dataclass
+from pydantic import BaseModel, Field
 from typing import Optional, Dict
 
 
-@dataclass
-class Message:
+class Message(BaseModel):
     """
     Represents a message in the SOMA system.
     This class encapsulates the details of a message, including its source type,
     source ID, subject, content, timestamp, and any additional metadata.
     The `to_dict` method converts the message to a dictionary format for easy serialization.
     """
-    source_type: str
-    source_id: str
-    subject: Optional[str]
-    content: str
-    timestamp: Optional[str]
-    metadata: Optional[Dict[str, str]]
-
-    def to_dict(self) -> Dict[str, str]:
-        """
-        Convert the Message instance to a dictionary format.
-        This method is useful for serialization and transmission of message data.
-        :return: A dictionary representation of the Message instance.
-        """
-        return {
-            "source_type": self.source_type,
-            "source_id": self.source_id,
-            "subject": self.subject or "",
-            "content": self.content,
-            "timestamp": self.timestamp or "",
-            "metadata": self.metadata or {}
-        }
+    source_type: str = Field(
+        ...,
+        description="Type of the message source, e.g., 'email', 'system', 'service', etc."
+    )
+    source_id: str = Field(
+        ...,
+        description="Unique ID of the message source, e.g. `Message-Id` header in emails, used to detect duplicates"
+    )
+    subject: Optional[str] = Field(
+        None,
+        description="Subject or title of the message"
+    )
+    content: str = Field(
+        ...,
+        description="The content of the message. For emails, the entire email is stored here, including headers, HTML and text parts."
+    )
+    timestamp: Optional[str] = Field(
+        None,
+        description="ISO-date of the message"
+    )
+    metadata: Optional[Dict[str, str]] = Field(
+        default_factory=dict,
+        description="Additional metadata"
+    )
