@@ -1,0 +1,825 @@
+X-UIDL: 0fijYP-1uclrv0qtH-00A1yg
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+Return-Path: <notifications@github.com>
+Authentication-Results:  kundenserver.de; dkim=pass header.i=@github.com
+Received: from out-17.smtp.github.com ([192.30.252.200]) by mx.kundenserver.de
+ (mxeue002 [212.227.15.41]) with ESMTPS (Nemesis) id 1M6GOO-1uRXSB2QiO-00A2Xg
+ for <nbraczek@bsds.de>; Wed, 11 Jun 2025 13:17:27 +0200
+Received: from localhost (hubbernetes-node-68fcefe.va3-iad.github.net [10.48.111.65])
+	by smtp.github.com (Postfix) with UTF8SMTPSA id 4FBCC4E036F
+	for <nbraczek@bsds.de>; Wed, 11 Jun 2025 04:17:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=github.com;
+	s=pf2023; t=1749640646;
+	bh=nkjP4+n+cf8S/YIAdyf7B5VMJ1Z+7fzqHYEP7eWg9F4=;
+	h=List-Id:Reply-To:Date:List-Post:List-Archive:Subject:Cc:To:From:
+	 From;
+	b=T67NNdVBDV9GytklDk3o0y1ULMUD01mVV2zThHE+EbpTi89mzKAgpEnBl1XtB+BbC
+	 Fq3s19GELsIwba7rA7TBct4qH4WxWNHC2zRmwvo042D/FOn4J42PrAw6eWHC5Gz2r5
+	 el+44Vd6aCcgLmwDR+2A2NSg+WxOjnkAR3fdPJvM=
+Content-Type: multipart/alternative;
+ boundary="part_01818af7883991f0e90b4b64f20865bbb14d4b5d9416f498945290db4d164bdd"; charset=UTF-8
+List-Id: nibra/soma <soma.nibra.github.com>
+Reply-To: nibra/soma <soma@noreply.github.com>
+Date: Wed, 11 Jun 2025 04:17:24 -0700
+List-Post: noreply@github.com
+Precedence: list
+X-Github-Sender: nibra
+List-Archive: https://github.com/nibra/soma
+Message-Id: <nibra/soma/check-suites/CS_kwDOO5yWSc8AAAAJTRrspw/1749640624@github.com>
+X-Github-Recipient: nibra
+X-Github-Reason: ci_activity
+Subject: [nibra/soma] Run failed: Python package - main (a5baa50)
+Cc: "Ci activity" <ci_activity@noreply.github.com>
+To: "nibra/soma" <soma@noreply.github.com>
+From: "Niels Braczek" <notifications@github.com>
+Mime-Version: 1.0
+Envelope-To: <nbraczek@bsds.de>
+X-Spam-Flag: NO
+UI-InboundReport: notjunk:1;M01:P0:MycGqpAjD9g=;wTseSjZprD5aGLAQILMGeBxV3plp
+ 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
+ kEMO+Ltf3dwPJ09DitSS9f7F/MjQzYqUZq/IX9A==
+
+--part_01818af7883991f0e90b4b64f20865bbb14d4b5d9416f498945290db4d164bdd
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+
+[nibra/soma] Python package workflow run
+
+Repository: nibra/soma
+Workflow: Python package
+Duration: 1 minute and 47.0 seconds
+Finished: 2025-06-11 11:17:04 UTC
+
+View results: https://github.com/nibra/soma/actions/runs/15583371965
+
+Jobs:
+  * build (3.12) failed (1 annotation)
+  * build (3.10) succeeded (0 annotations)
+  * build (3.11) succeeded (0 annotations)
+
+-- 
+You are receiving this because you are subscribed to this thread.
+Manage your GitHub Actions notifications: https://github.com/settings/notifications
+
+--part_01818af7883991f0e90b4b64f20865bbb14d4b5d9416f498945290db4d164bdd
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
+w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns=3D"http://www.w3.org/1=
+999/xhtml" lang=3D"en" xml:lang=3D"en" style=3D"font-family: sans-serif; =
+-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; box-sizing: b=
+order-box;" xml:lang=3D"en">
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width" />
+    <title>[nibra/soma] Run failed: Python package - main (a5baa50)</titl=
+e>
+    =
+
+  </head>
+  <body style=3D"box-sizing: border-box; font-family: -apple-system,Blink=
+MacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=
+ Color Emoji&quot;,&quot;Segoe UI Emoji&quot;; font-size: 14px; line-heig=
+ht: 1.5; color: #24292e; background-color: #fff; margin: 0;" bgcolor=3D"#=
+fff">
+    <table align=3D"center" class=3D"container-sm width-full" width=3D"10=
+0%" style=3D"box-sizing: border-box; border-spacing: 0; border-collapse: =
+collapse; max-width: 544px; margin-right: auto; margin-left: auto; width:=
+ 100% !important; font-family: -apple-system,BlinkMacSystemFont,&quot;Seg=
+oe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quo=
+t;Segoe UI Emoji&quot; !important;">
+      <tr style=3D"box-sizing: border-box; font-family: -apple-system,Bli=
+nkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;App=
+le Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+        <td class=3D"center p-3" align=3D"center" valign=3D"top" style=3D=
+"box-sizing: border-box; font-family: -apple-system,BlinkMacSystemFont,&q=
+uot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quo=
+t;,&quot;Segoe UI Emoji&quot; !important; padding: 16px;">
+          <center style=3D"box-sizing: border-box; font-family: -apple-sy=
+stem,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&=
+quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+            <table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"center" class=3D"width-full container-md" width=3D"100%" style=3D"box=
+-sizing: border-box; border-spacing: 0; border-collapse: collapse; max-wi=
+dth: 768px; margin-right: auto; margin-left: auto; width: 100% !important=
+; font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helv=
+etica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji=
+&quot; !important;">
+  <tr style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMa=
+cSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple C=
+olor Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <td align=3D"center" style=3D"box-sizing: border-box; font-family: -a=
+pple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-=
+serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important=
+; padding: 0;">
+              <table style=3D"box-sizing: border-box; border-spacing: 0; =
+border-collapse: collapse; font-family: -apple-system,BlinkMacSystemFont,=
+&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&q=
+uot;,&quot;Segoe UI Emoji&quot; !important;">
+  <tbody style=3D"box-sizing: border-box; font-family: -apple-system,Blin=
+kMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Appl=
+e Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <tr style=3D"box-sizing: border-box; font-family: -apple-system,Blink=
+MacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=
+ Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+      <td height=3D"16" style=3D"font-size: 16px; line-height: 16px; box-=
+sizing: border-box; font-family: -apple-system,BlinkMacSystemFont,&quot;S=
+egoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&q=
+uot;Segoe UI Emoji&quot; !important; padding: 0;">&#160;</td>
+    </tr>
+  </tbody>
+</table>
+
+              <table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" ali=
+gn=3D"left" width=3D"100%" style=3D"box-sizing: border-box; border-spacin=
+g: 0; border-collapse: collapse; font-family: -apple-system,BlinkMacSyste=
+mFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color E=
+moji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+                <tr style=3D"box-sizing: border-box; font-family: -apple-=
+system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif=
+,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+                  <td class=3D"text-left" style=3D"box-sizing: border-box=
+; text-align: left !important; font-family: -apple-system,BlinkMacSystemF=
+ont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emo=
+ji&quot;,&quot;Segoe UI Emoji&quot; !important; padding: 0;" align=3D"lef=
+t">
+                    <img src=3D"https://github.githubassets.com/assets/oc=
+tocat-logo-805b5c3e249f.png" alt=3D"GitHub" width=3D"32" style=3D"box-siz=
+ing: border-box; font-family: -apple-system,BlinkMacSystemFont,&quot;Sego=
+e UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot=
+;Segoe UI Emoji&quot; !important; border-style: none;" />
+                    <h2 class=3D"lh-condensed mt-2 text-normal" style=3D"=
+box-sizing: border-box; margin-top: 8px !important; margin-bottom: 0; fon=
+t-size: 24px; font-weight: 400 !important; line-height: 1.25 !important; =
+font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvet=
+ica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&q=
+uot; !important;">
+                        [nibra/soma] Python package workflow run
+
+                    </h2>
+                  </td>
+                </tr>
+              </table>
+              <table style=3D"box-sizing: border-box; border-spacing: 0; =
+border-collapse: collapse; font-family: -apple-system,BlinkMacSystemFont,=
+&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&q=
+uot;,&quot;Segoe UI Emoji&quot; !important;">
+  <tbody style=3D"box-sizing: border-box; font-family: -apple-system,Blin=
+kMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Appl=
+e Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <tr style=3D"box-sizing: border-box; font-family: -apple-system,Blink=
+MacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=
+ Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+      <td height=3D"16" style=3D"font-size: 16px; line-height: 16px; box-=
+sizing: border-box; font-family: -apple-system,BlinkMacSystemFont,&quot;S=
+egoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&q=
+uot;Segoe UI Emoji&quot; !important; padding: 0;">&#160;</td>
+    </tr>
+  </tbody>
+</table>
+
+</td>
+  </tr>
+</table>
+            <table width=3D"100%" class=3D"width-full" style=3D"box-sizin=
+g: border-box; border-spacing: 0; border-collapse: collapse; width: 100% =
+!important; font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&=
+quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Sego=
+e UI Emoji&quot; !important;">
+              <tr style=3D"box-sizing: border-box; font-family: -apple-sy=
+stem,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&=
+quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+                <td class=3D"border rounded-2 d-block" style=3D"box-sizin=
+g: border-box; border-radius: 6px !important; display: block !important; =
+font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvet=
+ica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&q=
+uot; !important; padding: 0; border: 1px solid #e1e4e8;">
+                  <table align=3D"center" class=3D"width-full text-center=
+" style=3D"box-sizing: border-box; border-spacing: 0; border-collapse: co=
+llapse; width: 100% !important; text-align: center !important; font-famil=
+y: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,=
+sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !impo=
+rtant;">
+                    <tr style=3D"box-sizing: border-box; font-family: -ap=
+ple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-s=
+erif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;=
+">
+                      <td style=3D"box-sizing: border-box; font-family: -=
+apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans=
+-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !importan=
+t; padding: 0;">
+                        <table border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" align=3D"center" class=3D"width-full" width=3D"100%" style=3D"box-=
+sizing: border-box; border-spacing: 0; border-collapse: collapse; width: =
+100% !important; font-family: -apple-system,BlinkMacSystemFont,&quot;Sego=
+e UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot=
+;Segoe UI Emoji&quot; !important;">
+  <tr style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMa=
+cSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple C=
+olor Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <td align=3D"center" style=3D"box-sizing: border-box; font-family: -a=
+pple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-=
+serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important=
+; padding: 0;">
+                          =
+
+<table align=3D"center" class=3D"border-bottom width-full text-center" st=
+yle=3D"box-sizing: border-box; border-spacing: 0; border-collapse: collap=
+se; border-bottom-width: 1px !important; border-bottom-color: #e1e4e8 !im=
+portant; border-bottom-style: solid !important; width: 100% !important; t=
+ext-align: center !important; font-family: -apple-system,BlinkMacSystemFo=
+nt,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoj=
+i&quot;,&quot;Segoe UI Emoji&quot; !important;">
+  <tr style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMa=
+cSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple C=
+olor Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <td class=3D"d-block px-3 pt-3 p-sm-4" style=3D"box-sizing: border-bo=
+x; display: block !important; font-family: -apple-system,BlinkMacSystemFo=
+nt,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoj=
+i&quot;,&quot;Segoe UI Emoji&quot; !important; padding: 16px 16px 0;">
+      <table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=3D"ce=
+nter" class=3D"width-full" width=3D"100%" style=3D"box-sizing: border-box=
+; border-spacing: 0; border-collapse: collapse; width: 100% !important; f=
+ont-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helveti=
+ca,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&qu=
+ot; !important;">
+  <tr style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMa=
+cSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple C=
+olor Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <td align=3D"center" style=3D"box-sizing: border-box; font-family: -a=
+pple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-=
+serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important=
+; padding: 0;">
+        =
+
+    <img src=3D"https://github.githubassets.com/assets/actions-1cc0c3ccfe=
+18.png" width=3D"56" height=3D"56" alt=3D"" style=3D"box-sizing: border-b=
+ox; font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,He=
+lvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emo=
+ji&quot; !important; border-style: none;" />
+  <table style=3D"box-sizing: border-box; border-spacing: 0; border-colla=
+pse: collapse; font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe =
+UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;S=
+egoe UI Emoji&quot; !important;">
+  <tbody style=3D"box-sizing: border-box; font-family: -apple-system,Blin=
+kMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Appl=
+e Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <tr style=3D"box-sizing: border-box; font-family: -apple-system,Blink=
+MacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=
+ Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+      <td height=3D"12" style=3D"font-size: 12px; line-height: 12px; box-=
+sizing: border-box; font-family: -apple-system,BlinkMacSystemFont,&quot;S=
+egoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&q=
+uot;Segoe UI Emoji&quot; !important; padding: 0;">&#160;</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 class=3D"lh-condensed" style=3D"box-sizing: border-box; margin-top: 0=
+; margin-bottom: 0; font-size: 20px; font-weight: 600; line-height: 1.25 =
+!important; font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&=
+quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Sego=
+e UI Emoji&quot; !important;">Python package: Some jobs were not successf=
+ul</h3>
+<table style=3D"box-sizing: border-box; border-spacing: 0; border-collaps=
+e: collapse; font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI=
+&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Seg=
+oe UI Emoji&quot; !important;">
+  <tbody style=3D"box-sizing: border-box; font-family: -apple-system,Blin=
+kMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Appl=
+e Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <tr style=3D"box-sizing: border-box; font-family: -apple-system,Blink=
+MacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=
+ Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+      <td height=3D"16" style=3D"font-size: 16px; line-height: 16px; box-=
+sizing: border-box; font-family: -apple-system,BlinkMacSystemFont,&quot;S=
+egoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&q=
+uot;Segoe UI Emoji&quot; !important; padding: 0;">&#160;</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+  <table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=3D"center=
+" class=3D"width-full" width=3D"100%" style=3D"box-sizing: border-box; bo=
+rder-spacing: 0; border-collapse: collapse; width: 100% !important; font-=
+family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,A=
+rial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; =
+!important;">
+  <tr style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMa=
+cSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple C=
+olor Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <td align=3D"center" style=3D"box-sizing: border-box; font-family: -a=
+pple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-=
+serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important=
+; padding: 0;">
+    <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0=
+" style=3D"box-sizing: border-box; border-spacing: 0; border-collapse: co=
+llapse; font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot=
+;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI=
+ Emoji&quot; !important;">
+  <tr style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMa=
+cSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple C=
+olor Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <td style=3D"box-sizing: border-box; font-family: -apple-system,Blink=
+MacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=
+ Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important; padding: 0;">
+      <table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" width=3D"10=
+0%" style=3D"box-sizing: border-box; border-spacing: 0; border-collapse: =
+collapse; font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&qu=
+ot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe =
+UI Emoji&quot; !important;">
+        <tr style=3D"box-sizing: border-box; font-family: -apple-system,B=
+linkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;A=
+pple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+          <td align=3D"center" style=3D"box-sizing: border-box; font-fami=
+ly: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial=
+,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !imp=
+ortant; padding: 0;">
+              <!--[if mso]> <table><tr><td align=3D"center" bgcolor=3D"#2=
+8a745"> <![endif]-->
+                <a href=3D"https://github.com/nibra/soma/actions/runs/155=
+83371965" target=3D"_blank" rel=3D"noopener noreferrer" class=3D"btn btn-=
+large btn-primary" style=3D"background-color: #1f883d !important; box-siz=
+ing: border-box; color: #fff; text-decoration: none; position: relative; =
+display: inline-block; font-size: inherit; font-weight: 500; line-height:=
+ 1.5; white-space: nowrap; vertical-align: middle; cursor: pointer; -webk=
+it-user-select: none; user-select: none; border-radius: .5em; appearance:=
+ none; box-shadow: 0 1px 0 rgba(27,31,35,.1),inset 0 1px 0 rgba(255,255,2=
+55,.03); transition: background-color .2s cubic-bezier(0.3, 0, 0.5, 1); f=
+ont-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helveti=
+ca,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&qu=
+ot; !important; padding: .75em 1.5em; border: 1px solid #1f883d;">View wo=
+rkflow run</a>
+              <!--[if mso]> </td></tr></table> <![endif]-->
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+</td>
+  </tr>
+</table>
+  <table style=3D"box-sizing: border-box; border-spacing: 0; border-colla=
+pse: collapse; font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe =
+UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;S=
+egoe UI Emoji&quot; !important;">
+  <tbody style=3D"box-sizing: border-box; font-family: -apple-system,Blin=
+kMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Appl=
+e Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <tr style=3D"box-sizing: border-box; font-family: -apple-system,Blink=
+MacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=
+ Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+      <td height=3D"32" style=3D"font-size: 32px; line-height: 32px; box-=
+sizing: border-box; font-family: -apple-system,BlinkMacSystemFont,&quot;S=
+egoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&q=
+uot;Segoe UI Emoji&quot; !important; padding: 0;">&#160;</td>
+    </tr>
+  </tbody>
+</table>
+
+
+</td>
+  </tr>
+</table>
+    </td>
+  </tr>
+</table>
+
+  <table align=3D"center" class=3D"border-bottom width-full text-center" =
+style=3D"box-sizing: border-box; border-spacing: 0; border-collapse: coll=
+apse; border-bottom-width: 1px !important; border-bottom-color: #e1e4e8 !=
+important; border-bottom-style: solid !important; width: 100% !important;=
+ text-align: center !important; font-family: -apple-system,BlinkMacSystem=
+Font,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Em=
+oji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+  <tr style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMa=
+cSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple C=
+olor Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <td class=3D"d-block text-left" style=3D"box-sizing: border-box; text=
+-align: left !important; display: block !important; font-family: -apple-s=
+ystem,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,=
+&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important; padd=
+ing: 0;" align=3D"left">
+      <table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=3D"ce=
+nter" class=3D"width-full" width=3D"100%" style=3D"box-sizing: border-box=
+; border-spacing: 0; border-collapse: collapse; width: 100% !important; f=
+ont-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helveti=
+ca,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&qu=
+ot; !important;">
+  <tr style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMa=
+cSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple C=
+olor Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <td align=3D"center" style=3D"box-sizing: border-box; font-family: -a=
+pple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-=
+serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important=
+; padding: 0;">
+        =
+
+    </td><td class=3D"pl-3 py-3 p-sm-4" style=3D"box-sizing: border-box; =
+font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvet=
+ica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&q=
+uot; !important; padding: 16px 0 16px 16px;">
+      <img src=3D"https://github.githubassets.com/assets/x-circle-fill-re=
+d-153d16960fc8.png" alt=3D"build (3.12)" height=3D"24" width=3D"24" style=
+=3D"box-sizing: border-box; font-family: -apple-system,BlinkMacSystemFont=
+,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&=
+quot;,&quot;Segoe UI Emoji&quot; !important; border-style: none;" />
+    </td>
+    <td style=3D"width: 100%; box-sizing: border-box; font-family: -apple=
+-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-seri=
+f,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important; pa=
+dding: 16px;" class=3D"p-3">
+      <p class=3D"mb-0" style=3D"box-sizing: border-box; margin-top: 0; m=
+argin-bottom: 0 !important; font-family: -apple-system,BlinkMacSystemFont=
+,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&=
+quot;,&quot;Segoe UI Emoji&quot; !important;">
+        <b style=3D"font-weight: 600; box-sizing: border-box; font-family=
+: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,s=
+ans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !impor=
+tant;">Python package</b> / build (3.12)
+        <br style=3D"box-sizing: border-box; font-family: -apple-system,B=
+linkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;A=
+pple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;" />
+        Failed in 1 minute and 4 seconds
+      </p>
+    </td>
+    <td style=3D"white-space: nowrap; box-sizing: border-box; font-family=
+: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,s=
+ans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !impor=
+tant; padding: 16px 16px 16px 0;" class=3D"pr-3 py-3">
+        <a href=3D"https://github.com/nibra/soma/actions/runs/15583371965=
+" style=3D"background-color: transparent; box-sizing: border-box; color: =
+#0366d6; text-decoration: none; font-family: -apple-system,BlinkMacSystem=
+Font,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Em=
+oji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+          <img src=3D"https://github.githubassets.com/assets/report-gray-=
+d5f2721544ee.png" alt=3D"annotations for Python package / build (3.12)" w=
+idth=3D"16" height=3D"16" style=3D"box-sizing: border-box; font-family: -=
+apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans=
+-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !importan=
+t; border-style: none;" />
+          <span class=3D"d-table-cell v-align-middle text-gray-light" sty=
+le=3D"box-sizing: border-box; color: #6a737d !important; vertical-align: =
+middle !important; display: table-cell !important; font-family: -apple-sy=
+stem,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&=
+quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;"> 1 <=
+/span>
+        </a>
+    </td>
+
+
+  </tr>
+</table>
+    </td>
+  </tr>
+</table>
+  <table align=3D"center" class=3D"border-bottom width-full text-center" =
+style=3D"box-sizing: border-box; border-spacing: 0; border-collapse: coll=
+apse; border-bottom-width: 1px !important; border-bottom-color: #e1e4e8 !=
+important; border-bottom-style: solid !important; width: 100% !important;=
+ text-align: center !important; font-family: -apple-system,BlinkMacSystem=
+Font,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Em=
+oji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+  <tr style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMa=
+cSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple C=
+olor Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <td class=3D"d-block text-left" style=3D"box-sizing: border-box; text=
+-align: left !important; display: block !important; font-family: -apple-s=
+ystem,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,=
+&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important; padd=
+ing: 0;" align=3D"left">
+      <table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=3D"ce=
+nter" class=3D"width-full" width=3D"100%" style=3D"box-sizing: border-box=
+; border-spacing: 0; border-collapse: collapse; width: 100% !important; f=
+ont-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helveti=
+ca,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&qu=
+ot; !important;">
+  <tr style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMa=
+cSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple C=
+olor Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <td align=3D"center" style=3D"box-sizing: border-box; font-family: -a=
+pple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-=
+serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important=
+; padding: 0;">
+        =
+
+    </td><td class=3D"pl-3 py-3 p-sm-4" style=3D"box-sizing: border-box; =
+font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvet=
+ica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&q=
+uot; !important; padding: 16px 0 16px 16px;">
+      <img src=3D"https://github.githubassets.com/assets/check-circle-fil=
+l-green-beec9eb7b823.png" alt=3D"build (3.10)" height=3D"24" width=3D"24"=
+ style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMacSyst=
+emFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color =
+Emoji&quot;,&quot;Segoe UI Emoji&quot; !important; border-style: none;" /=
+>
+    </td>
+    <td style=3D"width: 100%; box-sizing: border-box; font-family: -apple=
+-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-seri=
+f,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important; pa=
+dding: 16px;" class=3D"p-3">
+      <p class=3D"mb-0" style=3D"box-sizing: border-box; margin-top: 0; m=
+argin-bottom: 0 !important; font-family: -apple-system,BlinkMacSystemFont=
+,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&=
+quot;,&quot;Segoe UI Emoji&quot; !important;">
+        <b style=3D"font-weight: 600; box-sizing: border-box; font-family=
+: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,s=
+ans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !impor=
+tant;">Python package</b> / build (3.10)
+        <br style=3D"box-sizing: border-box; font-family: -apple-system,B=
+linkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;A=
+pple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;" />
+        Succeeded in 1 minute and 43 seconds
+      </p>
+    </td>
+    <td style=3D"white-space: nowrap; box-sizing: border-box; font-family=
+: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,s=
+ans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !impor=
+tant; padding: 16px 16px 16px 0;" class=3D"pr-3 py-3">
+    </td>
+
+
+  </tr>
+</table>
+    </td>
+  </tr>
+</table>
+  <table align=3D"center" class=3D"width-full text-center" style=3D"box-s=
+izing: border-box; border-spacing: 0; border-collapse: collapse; width: 1=
+00% !important; text-align: center !important; font-family: -apple-system=
+,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot=
+;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+  <tr style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMa=
+cSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple C=
+olor Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <td class=3D"d-block text-left" style=3D"box-sizing: border-box; text=
+-align: left !important; display: block !important; font-family: -apple-s=
+ystem,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,=
+&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important; padd=
+ing: 0;" align=3D"left">
+      <table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=3D"ce=
+nter" class=3D"width-full" width=3D"100%" style=3D"box-sizing: border-box=
+; border-spacing: 0; border-collapse: collapse; width: 100% !important; f=
+ont-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helveti=
+ca,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&qu=
+ot; !important;">
+  <tr style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMa=
+cSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple C=
+olor Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <td align=3D"center" style=3D"box-sizing: border-box; font-family: -a=
+pple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-=
+serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important=
+; padding: 0;">
+        =
+
+    </td><td class=3D"pl-3 py-3 p-sm-4" style=3D"box-sizing: border-box; =
+font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvet=
+ica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&q=
+uot; !important; padding: 16px 0 16px 16px;">
+      <img src=3D"https://github.githubassets.com/assets/check-circle-fil=
+l-green-beec9eb7b823.png" alt=3D"build (3.11)" height=3D"24" width=3D"24"=
+ style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMacSyst=
+emFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color =
+Emoji&quot;,&quot;Segoe UI Emoji&quot; !important; border-style: none;" /=
+>
+    </td>
+    <td style=3D"width: 100%; box-sizing: border-box; font-family: -apple=
+-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-seri=
+f,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important; pa=
+dding: 16px;" class=3D"p-3">
+      <p class=3D"mb-0" style=3D"box-sizing: border-box; margin-top: 0; m=
+argin-bottom: 0 !important; font-family: -apple-system,BlinkMacSystemFont=
+,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&=
+quot;,&quot;Segoe UI Emoji&quot; !important;">
+        <b style=3D"font-weight: 600; box-sizing: border-box; font-family=
+: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,s=
+ans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !impor=
+tant;">Python package</b> / build (3.11)
+        <br style=3D"box-sizing: border-box; font-family: -apple-system,B=
+linkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;A=
+pple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;" />
+        Succeeded in 1 minute and 32 seconds
+      </p>
+    </td>
+    <td style=3D"white-space: nowrap; box-sizing: border-box; font-family=
+: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,s=
+ans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !impor=
+tant; padding: 16px 16px 16px 0;" class=3D"pr-3 py-3">
+    </td>
+
+
+  </tr>
+</table>
+    </td>
+  </tr>
+</table>
+
+
+
+</td>
+  </tr>
+</table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+            <table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"center" class=3D"width-full text-center" width=3D"100%" style=3D"box-=
+sizing: border-box; border-spacing: 0; border-collapse: collapse; width: =
+100% !important; text-align: center !important; font-family: -apple-syste=
+m,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quo=
+t;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+  <tr style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMa=
+cSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple C=
+olor Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <td align=3D"center" style=3D"box-sizing: border-box; font-family: -a=
+pple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-=
+serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important=
+; padding: 0;">
+              <table style=3D"box-sizing: border-box; border-spacing: 0; =
+border-collapse: collapse; font-family: -apple-system,BlinkMacSystemFont,=
+&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&q=
+uot;,&quot;Segoe UI Emoji&quot; !important;">
+  <tbody style=3D"box-sizing: border-box; font-family: -apple-system,Blin=
+kMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Appl=
+e Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <tr style=3D"box-sizing: border-box; font-family: -apple-system,Blink=
+MacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=
+ Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+      <td height=3D"16" style=3D"font-size: 16px; line-height: 16px; box-=
+sizing: border-box; font-family: -apple-system,BlinkMacSystemFont,&quot;S=
+egoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&q=
+uot;Segoe UI Emoji&quot; !important; padding: 0;">&#160;</td>
+    </tr>
+  </tbody>
+</table>
+
+              <table style=3D"box-sizing: border-box; border-spacing: 0; =
+border-collapse: collapse; font-family: -apple-system,BlinkMacSystemFont,=
+&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&q=
+uot;,&quot;Segoe UI Emoji&quot; !important;">
+  <tbody style=3D"box-sizing: border-box; font-family: -apple-system,Blin=
+kMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Appl=
+e Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <tr style=3D"box-sizing: border-box; font-family: -apple-system,Blink=
+MacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=
+ Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+      <td height=3D"16" style=3D"font-size: 16px; line-height: 16px; box-=
+sizing: border-box; font-family: -apple-system,BlinkMacSystemFont,&quot;S=
+egoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&q=
+uot;Segoe UI Emoji&quot; !important; padding: 0;">&#160;</td>
+    </tr>
+  </tbody>
+</table>
+
+              <p class=3D"f5 text-gray-light" style=3D"box-sizing: border=
+-box; margin-top: 0; margin-bottom: 10px; color: #6a737d !important; font=
+-size: 14px !important; font-family: -apple-system,BlinkMacSystemFont,&qu=
+ot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot=
+;,&quot;Segoe UI Emoji&quot; !important;">  </p><p style=3D"font-size: sm=
+all; -webkit-text-size-adjust: none; color: #666; box-sizing: border-box;=
+ margin-top: 0; margin-bottom: 10px; font-family: -apple-system,BlinkMacS=
+ystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Col=
+or Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">&#8212;<br style=3D=
+"box-sizing: border-box; font-family: -apple-system,BlinkMacSystemFont,&q=
+uot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quo=
+t;,&quot;Segoe UI Emoji&quot; !important;" />You are receiving this becau=
+se you are subscribed to this thread.<br style=3D"box-sizing: border-box;=
+ font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helve=
+tica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&=
+quot; !important;" /><a href=3D"https://github.com/settings/notifications=
+" style=3D"background-color: transparent; box-sizing: border-box; color: =
+#0366d6; text-decoration: none; font-family: -apple-system,BlinkMacSystem=
+Font,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Em=
+oji&quot;,&quot;Segoe UI Emoji&quot; !important;">Manage your GitHub Acti=
+ons notifications</a></p>
+
+</td>
+  </tr>
+</table>
+            <table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"center" class=3D"width-full text-center" width=3D"100%" style=3D"box-=
+sizing: border-box; border-spacing: 0; border-collapse: collapse; width: =
+100% !important; text-align: center !important; font-family: -apple-syste=
+m,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quo=
+t;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+  <tr style=3D"box-sizing: border-box; font-family: -apple-system,BlinkMa=
+cSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple C=
+olor Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <td align=3D"center" style=3D"box-sizing: border-box; font-family: -a=
+pple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-=
+serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important=
+; padding: 0;">
+  <table style=3D"box-sizing: border-box; border-spacing: 0; border-colla=
+pse: collapse; font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe =
+UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;S=
+egoe UI Emoji&quot; !important;">
+  <tbody style=3D"box-sizing: border-box; font-family: -apple-system,Blin=
+kMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Appl=
+e Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+    <tr style=3D"box-sizing: border-box; font-family: -apple-system,Blink=
+MacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=
+ Color Emoji&quot;,&quot;Segoe UI Emoji&quot; !important;">
+      <td height=3D"16" style=3D"font-size: 16px; line-height: 16px; box-=
+sizing: border-box; font-family: -apple-system,BlinkMacSystemFont,&quot;S=
+egoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&q=
+uot;Segoe UI Emoji&quot; !important; padding: 0;">&#160;</td>
+    </tr>
+  </tbody>
+</table>
+
+  <p class=3D"f6 text-gray-light" style=3D"box-sizing: border-box; margin=
+-top: 0; margin-bottom: 10px; color: #6a737d !important; font-size: 12px =
+!important; font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&=
+quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Sego=
+e UI Emoji&quot; !important;">GitHub, Inc. &#12539;88 Colin P Kelly Jr St=
+reet &#12539;San Francisco, CA 94107</p>
+</td>
+  </tr>
+</table>
+
+          </center>
+        </td>
+      </tr>
+    </table>
+    <!-- prevent Gmail on iOS font size manipulation -->
+   <div style=3D"display: none; white-space: nowrap; box-sizing: border-b=
+ox; font: 15px/0 apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;,H=
+elvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Em=
+oji&quot;;"> &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#16=
+0; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; =
+&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#1=
+60; </div>
+  </body>
+</html>
+
+--part_01818af7883991f0e90b4b64f20865bbb14d4b5d9416f498945290db4d164bdd--

@@ -41,9 +41,19 @@ class TestEmailConnector:
         for msg in messages:
             assert isinstance(msg, Message)
             assert msg.source_type == "email"
-            assert msg.source_id == "user1@localhost"
+            assert msg.source_id == "<174931494345.2528320.11015584980533813920@atlan>"
             assert msg.subject == "Test Email"
-            assert msg.content == "This is a test email body."
+            assert msg.content == """Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+From: sender@localhost
+To: user1@localhost
+Subject: Test Email
+Date: Sat, 07 Jun 2025 18:49:03 +0200
+Message-ID: <174931494345.2528320.11015584980533813920@atlan>
+Reply-To: replyto@localhost
+
+This is a test email body."""
 
     def _reset_greenmail(self):
         import requests

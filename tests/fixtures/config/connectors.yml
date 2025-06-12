@@ -1,10 +1,17 @@
 connectors:
-  email:
+  email.user1:
     class: soma.connectors.email_connector.EmailConnector
     imap_host: http://localhost:3143
     smtp_host: http://localhost:3025
     user: user1@localhost
     password: password1
+
+  email.user2:
+    class: soma.connectors.email_connector.EmailConnector
+    imap_host: http://localhost:3143
+    smtp_host: http://localhost:3025
+    user: user2@localhost
+    password: password2
 
   mastodon:
     class: soma.connectors.mastodon_connector.MastodonConnector
