@@ -21,7 +21,8 @@ dependencies = [
     "pytest-testdox==3.1.0",
     "PyYAML==6.0.2",
     "requests==2.32.3",
-    "SQLAlchemy==2.0.41"
+    "SQLAlchemy==2.0.41",
+    "pydantic==2.11.5"
 ]
 
 [project.urls]
