@@ -2,6 +2,7 @@
 #
 # :author: Niels Braczek <nbraczek@bsds.de>
 # :license: MIT License
+import json
 
 from soma.core.message import Message
 from soma.connectors.base import MessageConnector
@@ -37,18 +38,18 @@ class MastodonConnector(MessageConnector):
         if resp.status_code != 200:
             return messages
         for post in resp.json():
+            in_reply_to_id = post.get("in_reply_to_id", "")
             messages.append(Message(
                 source_type="mastodon",
-                source_id=post["account"]["acct"],
+                source_id=post["id"],
                 subject=None,
-                content=post["content"],
+                content=json.dumps(post, ensure_ascii=False),
                 timestamp=post["created_at"],
                 metadata={
-                    "post_id": post["id"],
                     "url": post["url"],
                     "hashtag": hashtag,
-                    "account_id": post["account"]["id"],
-                    "in_reply_to_id": post.get("in_reply_to_id", "")
+                    "from": post["account"]["acct"],
+                    "in_reply_to_id": in_reply_to_id if in_reply_to_id else "",
                 }
             ))
         return messages

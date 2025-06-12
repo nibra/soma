@@ -45,18 +45,18 @@ class EmailConnector(MessageConnector):
             mailbox = MailBox(host=self.imap_host, port=self.imap_port)
         with mailbox.login(self.user, self.password, initial_folder='INBOX') as mailbox:
             for msg in mailbox.fetch(AND(seen=False)):
+                headers = msg.headers
+                message_id = headers["message-id"][0] if "message-id" in headers else ""
                 messages.append(Message(
                     source_type="email",
-                    source_id=msg.to[0] if msg.to else "unknown",
+                    source_id=message_id,
                     subject=msg.subject,
-                    content=msg.text,
+                    content=msg.obj.as_bytes(),
                     timestamp=msg.date.isoformat(),
                     metadata={
-                        "message_id": msg.headers.get("Message-ID", ""),
                         "from": msg.from_,
                         "reply_to": msg.reply_to[0] if msg.reply_to else msg.from_,
-                        "thread_id": msg.headers.get("In-Reply-To", ""),
-                        "references": msg.headers.get("References", "")
+                        "in-reply-to": headers["in-reply-to"][0] if "in-reply-to" in headers else ""
                     }
                 ))
         return messages
