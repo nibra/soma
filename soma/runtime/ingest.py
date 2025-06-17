@@ -13,19 +13,19 @@ def ingest(config, event_bus):
     registry = ConnectorRegistry()
     for name, conf in config.items():
         cls_path = conf.pop("class")
-        print(f"Registering connector '{name}' with class '{cls_path}'")
+        print(f"[ingest] Registering connector '{name}' with class '{cls_path}'")
         module_path, class_name = cls_path.rsplit(".", 1)
         connector_cls = getattr(import_module(module_path), class_name)
         connector = connector_cls(**conf)
         registry.register(name, connector)
 
     for name, connector in registry.all().items():
-        print(f"Reading messages from connector '{name}'")
+        print(f"[ingest] Reading messages from connector '{name}'")
         messages = connector.read()
-        print(f"Connector '{name}' read {len(messages)} messages.")
+        print(f"[ingest] Connector '{name}' read {len(messages)} messages.")
         for msg in messages:
             event_bus.publish(
-                topic=name,
+                topic=name.split(".")[0],
                 message=msg,
                 key="raw"
             )
