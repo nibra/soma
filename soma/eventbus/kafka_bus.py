@@ -7,6 +7,8 @@ import threading
 import json
 from kafka import KafkaConsumer, KafkaProducer
 from typing import Callable, Dict, List, Optional
+from soma.agents.event_subscriber import EventSubscriber
+from soma.core.message import Message
 from soma.eventbus.base import EventBus
 
 
@@ -40,7 +42,7 @@ class KafkaEventBus(EventBus):
             key_serializer=lambda k: k.encode("utf-8") if k else None,
         )
 
-    def publish(self, topic: str, message: dict, key: Optional[str] = None):
+    def publish(self, topic: str, message: Message, key: Optional[str] = None):
         """
         Publish a message to a specific topic on the Kafka event bus.
         :param topic: The topic to which the message should be published.
@@ -48,7 +50,7 @@ class KafkaEventBus(EventBus):
         :param key: Optional key for the message, used for routing or identification purposes.
         :return: None
         """
-        self.producer.send(topic, value=message, key=key)
+        self.producer.send(topic, value=message.model_dump(), key=key)
         self.producer.flush()
 
     def subscribe(self, topic: str, handler: Callable):
@@ -71,9 +73,13 @@ class KafkaEventBus(EventBus):
         consumer = KafkaConsumer(topic, **self.consumer_config)
         while self.running:
             for msg in consumer:
-                for handler in self.subscribers.get(topic, []):
+                for subscriber in self.subscribers.get(topic, []):
                     try:
-                        handler(msg.value)
+                        message = Message(**msg.value)
+                        if isinstance(subscriber, EventSubscriber):
+                            subscriber.handle(message)
+                        else:
+                            subscriber(message)
                     except Exception as e:
                         print(f"[KafkaEventBus] Handler error on topic '{topic}': {e}")
                 if not self.running:

@@ -4,7 +4,11 @@
 # :license: MIT License
 
 from abc import ABC, abstractmethod
+from typing import Union, Callable
+from soma.agents.event_subscriber import EventSubscriber
+from soma.core.message import Message
 
+Subscriber = Union[Callable[[dict], None], EventSubscriber]
 
 class EventBus(ABC):
     """
@@ -12,18 +16,18 @@ class EventBus(ABC):
     """
 
     @abstractmethod
-    def publish(self, topic: str, message: dict, key: str | None = None):
+    def publish(self, topic: str, message: Message, key: str | None = None):
         """
         Publish a message to a specific topic on the event bus.
         :param topic: The topic to which the message should be published.
-        :param message: The message to be published, typically a dictionary containing the event data.
+        :param message: The message to be published.
         :param key: Optional key for the message, used for routing or identification purposes.
         :return: None
         """
         ...
 
     @abstractmethod
-    def subscribe(self, topic: str, handler: callable):
+    def subscribe(self, topic: str, handler: Subscriber):
         """
         Subscribe to a specific topic on the event bus with a handler function.
         :param topic: The topic to which the handler should subscribe.
