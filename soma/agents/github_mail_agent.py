@@ -45,7 +45,8 @@ class GitHubMailAgent(EventSubscriber):
             if "Dependabot" in message.subject:
                 return self._handle_security_alert_dependabot(mail, message)
 
-            return
+        message.content = msg.content
+        self._publish(message)
 
     def _handle_security_alert_dependabot(self, mail, message):
         content = mail.text
@@ -133,7 +134,7 @@ if __name__ == "__main__":
     event_bus.subscribe("email", GitHubMailAgent(event_bus))
     event_bus.start()
 
-    ingest({"email.git": config.get("connectors", {})["email.git"]}, event_bus)
+    ingest(config.get("connectors", {}), event_bus)
 
     time.sleep(2)
 
