@@ -13,6 +13,13 @@ connectors:
     user: user2@localhost
     password: password2
 
+  email.git:
+    class: soma.connectors.email_connector.EmailConnector
+    imap_host: http://localhost:3143
+    smtp_host: http://localhost:3025
+    user: git@localhost
+    password: password3
+
   mastodon:
     class: soma.connectors.mastodon_connector.MastodonConnector
     instance_url: http://localhost:3001
