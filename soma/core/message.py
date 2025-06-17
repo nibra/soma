@@ -40,3 +40,19 @@ class Message(BaseModel):
         default_factory=dict,
         description="Additional metadata"
     )
+
+    def clone(self) -> 'Message':
+        """
+        Create a clone of the current message instance.
+
+        Returns:
+            Message: A new instance of Message with the same data.
+        """
+        return Message(
+            source_type=self.source_type,
+            source_id=self.source_id,
+            subject=self.subject,
+            content=self.content,
+            timestamp=self.timestamp,
+            metadata=self.metadata.copy()
+        )
