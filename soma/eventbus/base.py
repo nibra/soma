@@ -10,13 +10,14 @@ from soma.core.message import Message
 
 Subscriber = Union[Callable[[dict], None], EventSubscriber]
 
+
 class EventBus(ABC):
     """
     Abstract base class for event bus implementations.
     """
 
     @abstractmethod
-    def publish(self, topic: str, message: Message, key: str | None = None):
+    def publish(self, topic: str, message: Union[Message | dict], key: str | None = None):
         """
         Publish a message to a specific topic on the event bus.
         :param topic: The topic to which the message should be published.
