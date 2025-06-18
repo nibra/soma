@@ -30,7 +30,7 @@ class Message(BaseModel):
     )
     content: str = Field(
         ...,
-        description="The content of the message. For emails, the entire email is stored here, including headers, HTML and text parts."
+        description="The content of the message. For emails, the entire email is stored here, including headers, HTML and text parts and attachments."
     )
     timestamp: Optional[str] = Field(
         None,

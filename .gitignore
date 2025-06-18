@@ -1,5 +1,6 @@
 /.soma/
 /docs/
+!/docs/messages.md
 /logs/
 /.coverage
 /once.py
