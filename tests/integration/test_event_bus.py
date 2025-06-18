@@ -5,6 +5,8 @@
 
 import time
 import pytest
+
+from soma.core.message import Message
 from soma.eventbus.memory_bus import InMemoryEventBus
 from soma.eventbus.kafka_bus import KafkaEventBus
 
@@ -69,17 +71,29 @@ class TestEventBus:
 
         bus.start()
 
-        bus.publish("topic1", {"value": 42})
-        bus.publish("topic2", {"status": "ok"})
+        message1 = Message(
+            source_type = "test",
+            source_id = "test-message-1",
+            content = "This is a test message 1",
+            metadata = {"value": 42}
+        )
+        message2 = Message(
+            source_type = "test",
+            source_id = "test-message-2",
+            content = "This is a test message 2",
+            metadata = {"status": "ok"}
+        )
+        bus.publish("topic1", message1)
+        bus.publish("topic2", message2)
 
         self.wait(lambda: len(received) < 3, 5)
 
         bus.stop()
 
         expected = [
-            ("handler1", {"value": 42}),
-            ("handler2", {"value": 42}),
-            ("handler3", {"status": "ok"}),
+            ("handler1", message1),
+            ("handler2", message1),
+            ("handler3", message2),
         ]
         assert all(item in received for item in expected)
         assert len(received) == 3
