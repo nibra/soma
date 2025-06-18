@@ -6,7 +6,9 @@
 import threading
 import queue
 from typing import Callable, Dict, List, Optional
-from soma.eventbus.base import EventBus
+from soma.agents.event_subscriber import EventSubscriber
+from soma.core.message import Message
+from soma.eventbus.base import EventBus, Subscriber
 
 
 class InMemoryEventBus(EventBus):
@@ -24,7 +26,7 @@ class InMemoryEventBus(EventBus):
         self.threads: List[threading.Thread] = []
         self.running = False
 
-    def publish(self, topic: str, message: dict, key: Optional[str] = None):
+    def publish(self, topic: str, message: Message, key: Optional[str] = None):
         """
         Publish a message to a specific topic on the in-memory event bus.
         :param topic: The topic to which the message should be published.
@@ -36,7 +38,7 @@ class InMemoryEventBus(EventBus):
             self.queues[topic] = queue.Queue()
         self.queues[topic].put(message)
 
-    def subscribe(self, topic: str, handler: Callable):
+    def subscribe(self, topic: str, handler: Subscriber):
         """
         Subscribe to a specific topic on the in-memory event bus with a handler function.
         :param topic: The topic to which the handler should subscribe.
@@ -56,9 +58,12 @@ class InMemoryEventBus(EventBus):
         while self.running:
             try:
                 msg = self.queues[topic].get(timeout=0.5)
-                for handler in self.subscribers.get(topic, []):
+                for subscriber in self.subscribers.get(topic, []):
                     try:
-                        handler(msg)
+                        if isinstance(subscriber, EventSubscriber):
+                            subscriber.handle(msg)
+                        else:
+                            subscriber(msg)
                     except Exception as e:
                         print(f"[InMemoryEventBus] Handler error on topic '{topic}': {e}")
             except queue.Empty:

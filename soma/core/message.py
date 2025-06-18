@@ -6,7 +6,7 @@
 # :license: MIT License
 
 from pydantic import BaseModel, Field
-from typing import Optional, Dict
+from typing import Optional, Dict, Any
 
 
 class Message(BaseModel):
@@ -30,13 +30,29 @@ class Message(BaseModel):
     )
     content: str = Field(
         ...,
-        description="The content of the message. For emails, the entire email is stored here, including headers, HTML and text parts."
+        description="The content of the message. For emails, the entire email is stored here, including headers, HTML and text parts and attachments."
     )
     timestamp: Optional[str] = Field(
         None,
         description="ISO-date of the message"
     )
-    metadata: Optional[Dict[str, str]] = Field(
+    metadata: Optional[Dict[str, Any]] = Field(
         default_factory=dict,
         description="Additional metadata"
     )
+
+    def clone(self) -> 'Message':
+        """
+        Create a clone of the current message instance.
+
+        Returns:
+            Message: A new instance of Message with the same data.
+        """
+        return Message(
+            source_type=self.source_type,
+            source_id=self.source_id,
+            subject=self.subject,
+            content=self.content,
+            timestamp=self.timestamp,
+            metadata=self.metadata.copy()
+        )
