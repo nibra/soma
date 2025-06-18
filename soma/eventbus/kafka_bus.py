@@ -6,7 +6,7 @@
 import threading
 import json
 from kafka import KafkaConsumer, KafkaProducer
-from typing import Callable, Dict, List, Optional, Union
+from typing import Callable, Dict, List, Optional
 from soma.agents.event_subscriber import EventSubscriber
 from soma.core.message import Message
 from soma.eventbus.base import EventBus
@@ -42,7 +42,7 @@ class KafkaEventBus(EventBus):
             key_serializer=lambda k: k.encode("utf-8") if k else None,
         )
 
-    def publish(self, topic: str, message: Union[Message | dict], key: Optional[str] = None):
+    def publish(self, topic: str, message: Message, key: Optional[str] = None):
         """
         Publish a message to a specific topic on the Kafka event bus.
         :param topic: The topic to which the message should be published.
@@ -50,9 +50,7 @@ class KafkaEventBus(EventBus):
         :param key: Optional key for the message, used for routing or identification purposes.
         :return: None
         """
-        if isinstance(message, Message):
-            message = message.model_dump()
-        self.producer.send(topic, value=message, key=key)
+        self.producer.send(topic, value=message.model_dump(), key=key)
         self.producer.flush()
 
     def subscribe(self, topic: str, handler: Callable):

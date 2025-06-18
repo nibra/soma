@@ -5,7 +5,7 @@
 
 import threading
 import queue
-from typing import Callable, Dict, List, Optional, Union
+from typing import Callable, Dict, List, Optional
 from soma.agents.event_subscriber import EventSubscriber
 from soma.core.message import Message
 from soma.eventbus.base import EventBus, Subscriber
@@ -26,7 +26,7 @@ class InMemoryEventBus(EventBus):
         self.threads: List[threading.Thread] = []
         self.running = False
 
-    def publish(self, topic: str, message: Union[Message | dict], key: Optional[str] = None):
+    def publish(self, topic: str, message: Message, key: Optional[str] = None):
         """
         Publish a message to a specific topic on the in-memory event bus.
         :param topic: The topic to which the message should be published.
@@ -36,10 +36,6 @@ class InMemoryEventBus(EventBus):
         """
         if topic not in self.queues:
             self.queues[topic] = queue.Queue()
-
-        if isinstance(message, Message):
-            message = message.model_dump()
-
         self.queues[topic].put(message)
 
     def subscribe(self, topic: str, handler: Subscriber):
