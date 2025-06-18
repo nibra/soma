@@ -6,7 +6,7 @@
 # :license: MIT License
 
 from pydantic import BaseModel, Field
-from typing import Optional, Dict
+from typing import Optional, Dict, Any
 
 
 class Message(BaseModel):
@@ -36,7 +36,7 @@ class Message(BaseModel):
         None,
         description="ISO-date of the message"
     )
-    metadata: Optional[Dict[str, str]] = Field(
+    metadata: Optional[Dict[str, Any]] = Field(
         default_factory=dict,
         description="Additional metadata"
     )
