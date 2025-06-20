@@ -25,7 +25,7 @@ class AgentRegistry:
             # If agent is metadata, we need to instantiate it
             from importlib import import_module
 
-            module_path, class_name = agent.cls.rsplit(".", 1)
+            module_path, class_name = agent.agent_class.rsplit(".", 1)
             cls = getattr(import_module(module_path), class_name)
             agent_instance = cls(event_bus=None)
         else:
@@ -75,9 +75,9 @@ if __name__ == "__main__":
     registry = AgentRegistry()
     registry.register("github-mail", AgentMetadata(
         name="github-mail",
-        cls="soma.agents.github_mail_agent.GitHubMailAgent",
-        input_topics=["email"],
-        output_topics=["ci_activity", "security_alert"],
+        agent_class="soma.agents.github_mail_agent.GitHubMailAgent",
+        subscriptions=["email"],
+        emits=["ci_activity", "security_alert"],
         description="Parsing GitHub notifications from emails",
     ))
 
