@@ -22,6 +22,7 @@ def ingest(config, event_bus):
     for name, connector in registry.all().items():
         print(f"[ingest] Reading messages from connector '{name}'")
         messages = connector.read()
+        # noinspection PyTypeChecker
         print(f"[ingest] Connector '{name}' read {len(messages)} messages.")
         for msg in messages:
             event_bus.publish(

@@ -1,16 +1,15 @@
 # soma/agents/github_mail_agent.py
 import time
 from datetime import datetime
-
-from soma.core.message import Message
-from soma.agents.event_subscriber import EventSubscriber
-from soma.eventbus.base import EventBus
+from soma.core.contracts.event_bus import EventProducer, EventSubscriber
+from soma.core.contracts.health import HealthStatus, SupportsHealthCheck
+from soma.core.contracts.message import Message
 from imap_tools import MailMessage
 
 
-class GitHubMailAgent(EventSubscriber):
-    def __init__(self, bus: EventBus, output_prefix="github."):
-        self.bus = bus
+class GitHubMailAgent(EventSubscriber, EventProducer, SupportsHealthCheck):
+    def __init__(self, output_prefix="github.", event_bus=None):
+        self.event_bus = event_bus
         self.output_prefix = output_prefix
 
     def handle(self, msg: Message):
@@ -66,7 +65,7 @@ class GitHubMailAgent(EventSubscriber):
                     sections = re.split(r"\n-- (.*?) --\n", re.sub("\n-- \n.*", "", parts[1], flags=re.DOTALL))
                     message.metadata["url"] = sections[0].strip()
                     for i in range(1, len(sections), 2):
-                        if i + 1 < len(sections)and sections[i].strip().lower() == "patch links":
+                        if i + 1 < len(sections) and sections[i].strip().lower() == "patch links":
                             links = sections[i + 1].strip().split("\n")
                             for link in links:
                                 if not link.startswith("http"):
@@ -85,8 +84,17 @@ class GitHubMailAgent(EventSubscriber):
             return self._handle_state_change(mail, message)
 
         message.content = msg.content
-        print(f"\nUnprocessed GitHub notification of type {message.source_type}:\n{message.subject}\n{mail.text[:100]}...\n")
+        print(
+            f"\nUnprocessed GitHub notification of type {message.source_type}:\n{message.subject}\n{mail.text[:100]}...\n")
         self._publish(message)
+
+    def check_health(self) -> HealthStatus:
+        return HealthStatus(
+            name=self.__class__.__name__,
+            status="healthy",
+            last_checked=datetime.now(),
+            message="Ready"
+        )
 
     def _handle_state_change(self, mail, message):
         # Handle state change messages (e.g., issues, pull requests)
@@ -198,13 +206,16 @@ class GitHubMailAgent(EventSubscriber):
         return
 
     def _publish(self, message):
+        if self.event_bus is None:
+            raise ValueError("Event bus is not set. Cannot publish message.")
+
         repository = message.metadata.get("repository_url", "")
         message.metadata["repository"] = repository.replace("https://github.com/", "")
 
         topic = message.source_type
         key = message.metadata.get('repository', 'unknown/unknown')
 
-        self.bus.publish(self.output_prefix + topic, message, key=key)
+        self.event_bus.publish(self.output_prefix + topic, message, key=key)
 
     @staticmethod
     def _extract(haystack, key) -> str:
@@ -213,7 +224,8 @@ class GitHubMailAgent(EventSubscriber):
             return match.group(1).strip()
         return ""
 
-    def _extract_issue_data(self, mail):
+    @staticmethod
+    def _extract_issue_data(mail):
         """
         Extract issue data from the email content.
         :param mail: The MailMessage object containing the email content.
@@ -260,7 +272,7 @@ if __name__ == "__main__":
         config = yaml.safe_load(f)
 
     event_bus = InMemoryEventBus()
-    event_bus.subscribe("email", GitHubMailAgent(event_bus))
+    event_bus.subscribe("email", GitHubMailAgent(event_bus=event_bus))
     event_bus.start()
 
     ingest(config.get("connectors", {}), event_bus)

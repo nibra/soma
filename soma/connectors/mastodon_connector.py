@@ -3,11 +3,10 @@
 # :author: Niels Braczek <nbraczek@bsds.de>
 # :license: MIT License
 import json
-
-from soma.core.message import Message
-from soma.connectors.base import MessageConnector
 from typing import Optional
 import requests
+
+from soma.core.contracts.message import Message, MessageConnector
 
 
 class MastodonConnector(MessageConnector):

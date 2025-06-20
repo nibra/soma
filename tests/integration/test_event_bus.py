@@ -5,17 +5,19 @@
 
 import time
 import pytest
-
-from soma.core.message import Message
+from soma.core.contracts.message import Message
 from soma.eventbus.memory_bus import InMemoryEventBus
 from soma.eventbus.kafka_bus import KafkaEventBus
 
 
 @pytest.mark.describe("Event Bus")
 class TestEventBus:
-    def _getInMemoryEventBus(self):
+    # noinspection PyPep8Naming
+    @staticmethod
+    def _getInMemoryEventBus():
         return InMemoryEventBus()
 
+    # noinspection PyPep8Naming
     def _getKafkaEventBus(self):
         from kafka.admin import KafkaAdminClient, NewTopic
         from kafka.errors import TopicAlreadyExistsError, UnknownTopicOrPartitionError
@@ -43,7 +45,8 @@ class TestEventBus:
 
         return KafkaEventBus(bootstrap_servers="localhost:9092", group_id="soma-group")
 
-    def wait(self, condition, timeout_seconds):
+    @staticmethod
+    def wait(condition, timeout_seconds):
         timeout = time.time() + timeout_seconds  # wait up to 5 seconds
         while condition() and time.time() < timeout:
             time.sleep(0.5)
@@ -72,16 +75,16 @@ class TestEventBus:
         bus.start()
 
         message1 = Message(
-            source_type = "test",
-            source_id = "test-message-1",
-            content = "This is a test message 1",
-            metadata = {"value": 42}
+            source_type="test",
+            source_id="test-message-1",
+            content="This is a test message 1",
+            metadata={"value": 42}
         )
         message2 = Message(
-            source_type = "test",
-            source_id = "test-message-2",
-            content = "This is a test message 2",
-            metadata = {"status": "ok"}
+            source_type="test",
+            source_id="test-message-2",
+            content="This is a test message 2",
+            metadata={"status": "ok"}
         )
         bus.publish("topic1", message1)
         bus.publish("topic2", message2)

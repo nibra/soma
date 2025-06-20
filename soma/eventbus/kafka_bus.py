@@ -7,9 +7,8 @@ import threading
 import json
 from kafka import KafkaConsumer, KafkaProducer
 from typing import Callable, Dict, List, Optional
-from soma.agents.event_subscriber import EventSubscriber
-from soma.core.message import Message
-from soma.eventbus.base import EventBus
+from soma.core.contracts.event_bus import EventBus, EventProducer, EventSubscriber
+from soma.core.contracts.message import Message
 
 
 class KafkaEventBus(EventBus):
@@ -63,6 +62,11 @@ class KafkaEventBus(EventBus):
         if topic not in self.subscribers:
             self.subscribers[topic] = []
         self.subscribers[topic].append(handler)
+
+        # Auto-inject EventBus into producer agents
+        if isinstance(handler, EventProducer):
+            if handler.event_bus is None:
+                handler.event_bus = self
 
     def _consume(self, topic: str):
         """

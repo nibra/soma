@@ -2,7 +2,7 @@ import re
 import yaml
 from importlib import import_module
 from soma.core.agent_registry import AgentRegistry
-from soma.eventbus.base import EventBus
+from soma.core.contracts.event_bus import EventBus
 
 
 def load_agents_from_config(config_path: str, event_bus: EventBus) -> AgentRegistry:
@@ -23,7 +23,7 @@ def load_agents_from_config(config_path: str, event_bus: EventBus) -> AgentRegis
         module_path, class_name = class_path.rsplit(".", 1)
         cls = getattr(import_module(module_path), class_name)
 
-        instance = cls(event_bus, **agent_conf)
+        instance = cls(event_bus=event_bus, **agent_conf)
         registry.register(name, instance)
 
         if topics:
