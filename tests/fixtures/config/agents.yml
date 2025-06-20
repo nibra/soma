@@ -1,0 +1,13 @@
+# tests/fixtures/config/agents.yml
+
+agents:
+  github_mail:
+    class: soma.agents.logging_agent.LoggingAgent
+    log_prefix: "[GitHubAgent]"
+    topics:
+      - email
+
+  fallback_logger:
+    class: soma.agents.logging_agent.LoggingAgent
+    log_prefix: "[Fallback]"
+    topic_filter: ".*"

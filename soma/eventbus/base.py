@@ -5,6 +5,7 @@
 
 from abc import ABC, abstractmethod
 from typing import Union, Callable
+import queue
 from soma.agents.event_subscriber import EventSubscriber
 from soma.core.message import Message
 
@@ -14,6 +15,7 @@ class EventBus(ABC):
     """
     Abstract base class for event bus implementations.
     """
+    queues: dict[str, 'queue.Queue']  # Dictionary to hold topic queues
 
     @abstractmethod
     def publish(self, topic: str, message: Message, key: str | None = None):

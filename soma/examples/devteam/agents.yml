@@ -1,0 +1,23 @@
+agents:
+  github_mail:
+    class: soma.agents.github_mail_agent.GitHubMailAgent
+    output_prefix: github.
+    topics:
+      - email
+      - notifications
+    config:
+      github_token: ${GITHUB_TOKEN}
+      github_user: ${GITHUB_USER}
+      github_repo: ${GITHUB_REPO}
+      github_branch: ${GITHUB_BRANCH}
+      github_email: ${GITHUB_EMAIL}
+      github_name: ${GITHUB_NAME}
+      github_url: ${GITHUB_URL}
+      github_api_url: ${GITHUB_API_URL}
+      github_graphql_url: ${GITHUB_GRAPHQL_URL}
+      github_webhook_secret: ${GITHUB_WEBHOOK_SECRET}
+      github_webhook_url: ${GITHUB_WEBHOOK_URL}
+  security_alerts:
+    class: soma.agents.security_agent.SecurityAgent
+    output_prefix: alerts.
+    topic_filter: "^email.*"
