@@ -5,7 +5,7 @@
 
 import pytest
 from soma.connectors.mastodon_connector import MastodonConnector
-from soma.core.message import Message
+from soma.core.contracts.message import Message
 
 
 @pytest.mark.describe("Mastodon Connector")

@@ -3,12 +3,11 @@
 # :author: Niels Braczek <nbraczek@bsds.de>
 # :license: MIT License
 
-from soma.core.message import Message
-from soma.connectors.base import MessageConnector
 from imap_tools import MailBox, AND, MailBoxUnencrypted
 from typing import Optional
 import smtplib
 from email.mime.text import MIMEText
+from soma.core.contracts.message import Message, MessageConnector
 
 
 class EmailConnector(MessageConnector):

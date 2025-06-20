@@ -4,16 +4,19 @@
 # :license: MIT License
 
 from abc import ABC, abstractmethod
-from typing import Union, Callable
-from soma.agents.event_subscriber import EventSubscriber
-from soma.core.message import Message
+from typing import Union, Callable, Optional
+import queue
 
-Subscriber = Union[Callable[[dict], None], EventSubscriber]
+from soma.core.contracts.message import Message
+
+Subscriber = Union[Callable[[dict], None], 'EventSubscriber']
+
 
 class EventBus(ABC):
     """
     Abstract base class for event bus implementations.
     """
+    queues: dict[str, 'queue.Queue']  # Dictionary to hold topic queues
 
     @abstractmethod
     def publish(self, topic: str, message: Message, key: str | None = None):
@@ -27,7 +30,7 @@ class EventBus(ABC):
         ...
 
     @abstractmethod
-    def subscribe(self, topic: str, handler: Subscriber):
+    def subscribe(self, topic: str, handler: 'Subscriber'):
         """
         Subscribe to a specific topic on the event bus with a handler function.
         :param topic: The topic to which the handler should subscribe.
@@ -50,4 +53,14 @@ class EventBus(ABC):
         Stop the event bus, cleaning up any resources or connections.
         :return: None
         """
+        ...
+
+
+class EventProducer(ABC):
+    event_bus: Optional[EventBus] = None
+
+
+class EventSubscriber(ABC):
+    @abstractmethod
+    def handle(self, msg: Message) -> None:
         ...

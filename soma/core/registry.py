@@ -3,7 +3,7 @@
 # :author: Niels Braczek <nbraczek@bsds.de>
 # :license: MIT License
 
-from soma.connectors.base import MessageConnector
+from soma.core.contracts.message import MessageConnector
 
 
 class ConnectorRegistry:

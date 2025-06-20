@@ -1,7 +1,6 @@
 # Connector Registry unit tests
-
+from soma.core.contracts.message import MessageConnector
 from soma.core.registry import ConnectorRegistry
-from soma.connectors.base import MessageConnector
 import pytest
 
 

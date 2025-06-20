@@ -6,9 +6,8 @@
 import threading
 import queue
 from typing import Callable, Dict, List, Optional
-from soma.agents.event_subscriber import EventSubscriber
-from soma.core.message import Message
-from soma.eventbus.base import EventBus, Subscriber
+from soma.core.contracts.event_bus import EventBus, Subscriber, EventProducer, EventSubscriber
+from soma.core.contracts.message import Message
 
 
 class InMemoryEventBus(EventBus):
@@ -48,6 +47,11 @@ class InMemoryEventBus(EventBus):
         if topic not in self.subscribers:
             self.subscribers[topic] = []
         self.subscribers[topic].append(handler)
+
+        # Auto-inject EventBus into producer agents
+        if isinstance(handler, EventProducer):
+            if handler.event_bus is None:
+                handler.event_bus = self
 
     def _consume(self, topic: str):
         """

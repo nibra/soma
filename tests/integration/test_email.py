@@ -7,7 +7,7 @@
 
 import pytest
 from soma.connectors.email_connector import EmailConnector
-from soma.core.message import Message
+from soma.core.contracts.message import Message
 
 
 @pytest.mark.describe("Email Connector")
@@ -55,7 +55,8 @@ Reply-To: replyto@localhost
 
 This is a test email body."""
 
-    def _reset_greenmail(self):
+    @staticmethod
+    def _reset_greenmail():
         import requests
         response = requests.post("http://localhost:8080/api/service/reset")
         assert response.status_code == 200, "Failed to reset GreenMail server"
