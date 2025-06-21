@@ -9,6 +9,7 @@ from kafka import KafkaConsumer, KafkaProducer
 from typing import Callable, Dict, List, Optional
 from soma.core.contracts.event_bus import EventBus, EventProducer, EventSubscriber
 from soma.core.contracts.message import Message
+from soma.eventbus.metrics import EVENT_LATENCY, EVENT_COUNT, EVENT_ERRORS
 
 
 class KafkaEventBus(EventBus):
@@ -78,14 +79,20 @@ class KafkaEventBus(EventBus):
         while self.running:
             for msg in consumer:
                 for subscriber in self.subscribers.get(topic, []):
+                    agent_name = getattr(subscriber, "__name__", None) or getattr(subscriber, "name", "unknown")
                     try:
-                        message = Message(**msg.value)
-                        if isinstance(subscriber, EventSubscriber):
-                            subscriber.handle(message)
-                        else:
-                            subscriber(message)
+                        with EVENT_LATENCY.labels(topic=topic, agent=agent_name).time():
+                            message = Message(**msg.value)
+
+                            if isinstance(subscriber, EventSubscriber):
+                                subscriber.handle(message)
+                            else:
+                                subscriber(message)
+
+                            EVENT_COUNT.labels(topic=topic, agent=agent_name).inc()
                     except Exception as e:
                         print(f"[KafkaEventBus] Handler error on topic '{topic}': {e}")
+                        EVENT_ERRORS.labels(topic=topic, agent=agent_name).inc()
                 if not self.running:
                     break
         consumer.close()

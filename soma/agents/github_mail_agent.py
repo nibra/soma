@@ -350,10 +350,17 @@ if __name__ == "__main__":
             logger=logger
         )
     )
+
+    from soma.monitoring.server import start_metrics_server
+    start_metrics_server(8000)
+
     event_bus.start()
 
     ingest(config.get("connectors", {}), event_bus)
 
     time.sleep(2)
+
+    # Wait for a key press to stop the event bus
+    input("Press Enter to stop the event bus...")
 
     event_bus.stop()
