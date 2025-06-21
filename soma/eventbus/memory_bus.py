@@ -8,6 +8,7 @@ import queue
 from typing import Callable, Dict, List, Optional
 from soma.core.contracts.event_bus import EventBus, Subscriber, EventProducer, EventSubscriber
 from soma.core.contracts.message import Message
+from soma.eventbus.metrics import EVENT_LATENCY, EVENT_COUNT, EVENT_ERRORS
 
 
 class InMemoryEventBus(EventBus):
@@ -63,13 +64,18 @@ class InMemoryEventBus(EventBus):
             try:
                 msg = self.queues[topic].get(timeout=0.5)
                 for subscriber in self.subscribers.get(topic, []):
+                    agent_name = getattr(subscriber, "__name__", None) or getattr(subscriber, "name", "unknown")
                     try:
-                        if isinstance(subscriber, EventSubscriber):
-                            subscriber.handle(msg)
-                        else:
-                            subscriber(msg)
+                        with EVENT_LATENCY.labels(topic=topic, agent=agent_name).time():
+                            if isinstance(subscriber, EventSubscriber):
+                                subscriber.handle(msg)
+                            else:
+                                subscriber(msg)
+
+                            EVENT_COUNT.labels(topic=topic, agent=agent_name).inc()
                     except Exception as e:
                         print(f"[InMemoryEventBus] Handler error on topic '{topic}': {e}")
+                        EVENT_ERRORS.labels(topic=topic, agent=agent_name).inc()
             except queue.Empty:
                 continue
 
