@@ -1,9 +1,11 @@
+from venv import logger
+
 from soma.core.registry import ConnectorRegistry
 from importlib import import_module
 from soma.eventbus.memory_bus import InMemoryEventBus
+import structlog
 
-
-def ingest(config, event_bus):
+def ingest(config, event_bus, logger=None):
     """
     Ingest messages from various connectors and send them to a Kafka topic.
     :param config:
@@ -11,19 +13,21 @@ def ingest(config, event_bus):
     :return: None
     """
     registry = ConnectorRegistry()
+    if logger is None:
+        logger = structlog.get_logger()
+
     for name, conf in config.items():
         cls_path = conf.pop("class")
-        print(f"[ingest] Registering connector '{name}' with class '{cls_path}'")
+        logger.info("Registering connector", agent="ingest", connector=name, class_path=cls_path)
         module_path, class_name = cls_path.rsplit(".", 1)
         connector_cls = getattr(import_module(module_path), class_name)
         connector = connector_cls(**conf)
         registry.register(name, connector)
 
     for name, connector in registry.all().items():
-        print(f"[ingest] Reading messages from connector '{name}'")
         messages = connector.read()
         # noinspection PyTypeChecker
-        print(f"[ingest] Connector '{name}' read {len(messages)} messages.")
+        logger.info("Reading messages", agent="ingest", connector=name, count=len(messages))
         for msg in messages:
             event_bus.publish(
                 topic=name.split(".")[0],

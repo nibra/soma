@@ -1,25 +1,39 @@
-# soma/agents/github_mail_agent.py
 import time
 from datetime import datetime
-from soma.core.contracts.event_bus import EventProducer, EventSubscriber
+from pyexpat.errors import messages
+from typing import Optional
+
+from soma.core.contracts.event_bus import EventProducer, EventSubscriber, EventBus
 from soma.core.contracts.health import HealthStatus, SupportsHealthCheck
 from soma.core.contracts.message import Message
 from imap_tools import MailMessage
+import structlog
 
 
 class GitHubMailAgent(EventSubscriber, EventProducer, SupportsHealthCheck):
-    def __init__(self, output_prefix="github.", event_bus=None):
+    def __init__(self, event_bus: EventBus, **kwargs):
         self.event_bus = event_bus
-        self.output_prefix = output_prefix
+        self.name = kwargs.get("name", self.__class__.__name__)
+        self.output_prefix = kwargs.get("output_prefix", "github.")
+        self.logger = kwargs.get("logger", structlog.get_logger(__name__))
+
+        self.logger.info(
+            "Agent initialized",
+            agent=self.name,
+            output_prefix=self.output_prefix,
+            event_bus=event_bus.__class__.__name__ if event_bus else "None"
+        )
 
     def handle(self, msg: Message):
         if msg.source_type != "email":
-            # Ignore messages not from email
+            self.logger.debug("Ignoring non-email message", **self._log_data(msg))
             return
 
         if "@github.com" not in msg.metadata["from"].lower():
-            # Ignore messages not from GitHub
+            self.logger.debug("Ignoring message not from GitHub", **self._log_data(msg))
             return
+
+        self.logger.info("Incoming message", **self._log_data(msg))
 
         mail = MailMessage.from_bytes(msg.content.encode("utf-8"))
 
@@ -84,57 +98,79 @@ class GitHubMailAgent(EventSubscriber, EventProducer, SupportsHealthCheck):
             return self._handle_state_change(mail, message)
 
         message.content = msg.content
-        print(
-            f"\nUnprocessed GitHub notification of type {message.source_type}:\n{message.subject}\n{mail.text[:100]}...\n")
+        self.logger.warning("Unable to process GitHub notification", **self._log_data(msg, mail))
         self._publish(message)
 
     def check_health(self) -> HealthStatus:
+        if self.event_bus:
+            status = "healthy"
+            message = "Ready"
+        else:
+            status = "unhealthy"
+            message = "Event bus is not set or not running."
         return HealthStatus(
-            name=self.__class__.__name__,
-            status="healthy",
+            name=self.name,
+            status=status,
             last_checked=datetime.now(),
-            message="Ready"
+            message=message
         )
 
     def _handle_state_change(self, mail, message):
-        # Handle state change messages (e.g., issues, pull requests)
         item = self._extract_issue_data(mail)
-        if item is not None:
-            change = re.search(rf"^(.+?) #{item['number']}", item["content"], re.MULTILINE)
-            if change:
-                message.source_type = "state_change." + item["type"] + "." + change.group(1).lower()
-                message.content = item["content"]
-                message.metadata[item["type"]] = item["number"]
-                message.metadata["url"] = item["url"]
-                return self._publish(message)
-        return
+        if item is None:
+            self.logger.warning("No issue data found in message", **self._log_data(message, mail))
+            return
+
+        change = re.search(rf"^(.+?) #{item['number']}", item["content"], re.MULTILINE)
+        if not change:
+            self.logger.warning("No state change found in message", **self._log_data(message, mail))
+            return
+
+        message.source_type = "state_change." + item["type"] + "." + change.group(1).lower()
+        message.content = item["content"]
+        message.metadata[item["type"]] = item["number"]
+        message.metadata["url"] = item["url"]
+        return self._publish(message)
 
     def _handle_security_advisory(self, mail, message):
         # Handle security advisory messages
         message.source_type = "security_alert"
         dep = re.search(r"affected by a security vulnerability in (.+?)\n", mail.text)
-        if dep:
-            vulnerability = re.search(rf"^(.*?severity\))\n", mail.text, re.MULTILINE)
-            message.metadata["dependency"] = dep.group(1).strip()
-            message.metadata["vulnerable_version"] = ""
-            message.metadata["upgrade_to"] = ""
-            message.metadata["vulnerabilities"] = vulnerability.group(1).strip() if vulnerability else ""
-            affected = re.search(r"used in [^\n]*?:\n(.*?)\n---", mail.text, re.DOTALL)
-            repos = re.split(r"(?:^|\n) {2}- (.*?)\n", affected.group(1)) if affected else []
-            if len(repos) > 1:
-                repos = repos[1:]
-                repos = {repos[i].strip(): repos[i + 1] for i in range(0, len(repos), 2)}
-            for repo in repos:
-                message.metadata["repository_url"] = "https://github.com/" + repo
-                locations = repos[repo].split("\n")
-                for location in locations:
-                    match = re.search(r"^Vulnerability found in (.+?) (http.+)$", location.strip("\n -"))
-                    if match:
-                        message.metadata["defined_in"] = match.group(1).strip()
-                        message.metadata["suggested_update"] = match.group(2).strip()
-                        message_clone = message.clone()
-                        message_clone.content = ""
-                        self._publish(message_clone)
+        if not dep:
+            self.logger.warning("No dependency found in security advisory", **self._log_data(message, mail))
+            return
+
+        vulnerability = re.search(rf"^(.*?severity\))\n", mail.text, re.MULTILINE)
+        message.metadata["dependency"] = dep.group(1).strip()
+        message.metadata["vulnerable_version"] = ""
+        message.metadata["upgrade_to"] = ""
+        message.metadata["vulnerabilities"] = vulnerability.group(1).strip() if vulnerability else ""
+        affected = re.search(r"used in [^\n]*?:\n(.*?)\n---", mail.text, re.DOTALL)
+        repos = re.split(r"(?:^|\n) {2}- (.*?)\n", affected.group(1)) if affected else []
+        if len(repos) > 1:
+            repos = repos[1:]
+            repos = {repos[i].strip(): repos[i + 1] for i in range(0, len(repos), 2)}
+        else:
+            self.logger.warning("No repositories found in security advisory", **self._log_data(message, mail))
+            return
+
+        for repo in repos:
+            message.metadata["repository_url"] = "https://github.com/" + repo
+            message.metadata["repository"] = repo
+            locations = repos[repo].split("\n")
+            for location in locations:
+                match = re.search(r"^Vulnerability found in (.+?) (http.+)$", location.strip("\n -"))
+                if not match:
+                    self.logger.warning("No vulnerability location found in security advisory", **self._log_data(message, mail))
+                    continue
+
+                message.metadata["defined_in"] = match.group(1).strip()
+                message.metadata["suggested_update"] = match.group(2).strip()
+                message_clone = message.clone()
+                message_clone.content = ""
+                self._publish(message_clone)
+            else:
+                self.logger.warning("No vulnerability locations found in security advisory", **self._log_data(message, mail))
 
     def _handle_security_alert(self, mail, message):
         """
@@ -157,11 +193,20 @@ class GitHubMailAgent(EventSubscriber, EventProducer, SupportsHealthCheck):
         orgs = re.split(r"(.+?) (?:organization|account)", content, re.MULTILINE)
         orgs = orgs[1:]
         orgs = {orgs[i].strip(): orgs[i + 1].strip(" -\n") for i in range(0, len(orgs), 2)}
+
+        if not orgs:
+            self.logger.warning("No organizations found in security alert", **self._log_data(message, mail))
+            return
+
         for org, o_part in orgs.items():
             repos = re.split(r"(\n\d+\. .*?\n\n)", "\n" + o_part, re.MULTILINE)
             repos = repos[1:]
             repos = {re.sub(r"^\d+\.\s+(.*)$", r"\1", repos[i].strip()): repos[i + 1].strip(" -\n") for i in
                      range(0, len(repos), 2)}
+
+            if not repos:
+                self.logger.warning(f"No repositories found in security alert for {org}", **self._log_data(message, mail))
+                continue
 
             for repo, r_part in repos.items():
                 message.metadata["repository_url"] = repo
@@ -169,6 +214,10 @@ class GitHubMailAgent(EventSubscriber, EventProducer, SupportsHealthCheck):
                 deps = re.split(r"(?:^|\n)\s*(.+?) dependency\n[ -]+\n", "\n" + deps)
                 deps = deps[1:]
                 deps = {deps[i].strip(): deps[i + 1].strip(" -\n") for i in range(0, len(deps), 2)}
+
+                if not deps:
+                    self.logger.warning(f"No vulnerable dependencies found in security alert for {repo}", **self._log_data(message, mail))
+                    continue
 
                 for dep in deps:
                     message.metadata["dependency"] = dep
@@ -192,12 +241,15 @@ class GitHubMailAgent(EventSubscriber, EventProducer, SupportsHealthCheck):
         """
         workflow = re.search(r"\nWorkflow:\s*(.+?)\n", mail.text)
         if not workflow:
+            self.logger.warning("No workflow found in CI activity message", **self._log_data(message, mail))
             return
         result_url = re.search(r"View results: (.*?)\n", mail.text)
         if not result_url:
+            self.logger.warning("No results URL found in CI activity message", **self._log_data(message, mail))
             return
         content = re.search(r"\* (.*? failed .*?)\n", mail.text)
         if not content:
+            self.logger.warning("No relevant content found in CI activity message", **self._log_data(message, mail))
             return
         message.metadata["workflow"] = workflow.group(1)
         message.metadata["results"] = result_url.group(1)
@@ -207,15 +259,18 @@ class GitHubMailAgent(EventSubscriber, EventProducer, SupportsHealthCheck):
 
     def _publish(self, message):
         if self.event_bus is None:
+            self.logger.error("Event bus is not set. Cannot publish message.", **self._log_data(message))
             raise ValueError("Event bus is not set. Cannot publish message.")
 
         repository = message.metadata.get("repository_url", "")
         message.metadata["repository"] = repository.replace("https://github.com/", "")
 
-        topic = message.source_type
+        topic = self.output_prefix + message.source_type
         key = message.metadata.get('repository', 'unknown/unknown')
 
-        self.event_bus.publish(self.output_prefix + topic, message, key=key)
+        self.logger.info("Publishing message", **self._log_data(message), topic=topic, key=key)
+
+        self.event_bus.publish(topic, message, key=key)
 
     @staticmethod
     def _extract(haystack, key) -> str:
@@ -248,6 +303,15 @@ class GitHubMailAgent(EventSubscriber, EventProducer, SupportsHealthCheck):
 
         return None
 
+    def _log_data(self, message: Message, mail: Optional[MailMessage] = None):
+        return {
+            "agent": self.name,
+            "source_type": message.source_type,
+            "source_id": message.source_id,
+            "subject": message.subject,
+            "content": mail.text[:100] + "..." if mail else message.content[:100] + "...",
+            **message.metadata
+        }
 
 if __name__ == "__main__":
     import yaml
@@ -263,6 +327,11 @@ if __name__ == "__main__":
         assert response.status_code == 200, "Failed to reset GreenMail server"
 
 
+    # Initialize the logging configuration
+    #import soma.logging_config
+    #soma.logging_config.setup_logging()
+    logger = structlog.get_logger(__name__)
+
     registry = ConnectorRegistry()
 
     _reset_greenmail()
@@ -272,21 +341,19 @@ if __name__ == "__main__":
         config = yaml.safe_load(f)
 
     event_bus = InMemoryEventBus()
-    event_bus.subscribe("email", GitHubMailAgent(event_bus=event_bus))
+    event_bus.subscribe(
+        "email",
+        GitHubMailAgent(
+            name="github_mail_agent",
+            event_bus=event_bus,
+            output_prefix="github.",
+            logger=logger
+        )
+    )
     event_bus.start()
 
     ingest(config.get("connectors", {}), event_bus)
 
     time.sleep(2)
-
-    print("\nIngested messages from connectors:\n")
-    for topic in event_bus.queues:
-        while not event_bus.queues[topic].empty():
-            message = event_bus.queues[topic].get()
-            content = message.content[:100]  # Limit content to first 100 characters for display
-            print(
-                f"Topic: {topic}\nSubject: {message.subject}\nContent: {content}\nMetadata: {message.metadata}\n")
-
-    print("Ingestion complete.")
 
     event_bus.stop()
