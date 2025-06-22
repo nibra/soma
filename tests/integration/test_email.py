@@ -64,6 +64,7 @@ This is a test email body."""
     @pytest.mark.it("sends an email using the SMTP server")
     def test_send_email(self, email_connector):
         message = Message(
+            agent_name="agent1",
             source_type="email",
             source_id="user2@localhost",
             subject="Test Send Email",
@@ -77,6 +78,7 @@ This is a test email body."""
     @pytest.mark.it("replies to an email using the SMTP server")
     def test_reply_email(self, email_connector):
         original_message = Message(
+            agent_name="agent1",
             source_type="email",
             source_id="user1@localhost",
             subject="Test Email",

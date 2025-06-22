@@ -38,6 +38,7 @@ class GitHubMailAgent(EventSubscriber, EventProducer, SupportsHealthCheck):
         mail = MailMessage.from_bytes(msg.content.encode("utf-8"))
 
         message = Message(
+            agent_name=self.name,
             source_type=mail.headers.get("x-github-reason", ("unknown",))[0].lower(),
             source_id=mail.headers.get("message-id", ("",))[0],
             subject=mail.subject.replace("\n", "") or "No Subject",

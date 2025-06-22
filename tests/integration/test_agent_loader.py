@@ -12,6 +12,7 @@ def test_loads_agents_and_subscribes():
     bus.publish(
         "email",
         Message(
+            agent_name="agent1",
             source_type="email",
             source_id="t1",
             subject="Test",
@@ -23,6 +24,7 @@ def test_loads_agents_and_subscribes():
     bus.publish(
         "random",
         Message(
+            agent_name="agent1",
             source_type="test",
             source_id="t2",
             subject="Unmatched",
@@ -40,6 +42,7 @@ def test_loads_agents_and_subscribes():
     bus.publish(
         "email",
         Message(
+            agent_name="agent1",
             source_type="email",
             source_id="t3",
             subject="GitHub test",
@@ -51,6 +54,7 @@ def test_loads_agents_and_subscribes():
     bus.publish(
         "random",
         Message(
+            agent_name="agent1",
             source_type="test",
             source_id="t4",
             subject="Unclassified",

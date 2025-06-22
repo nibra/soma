@@ -5,6 +5,7 @@
 
 import threading
 import queue
+import structlog
 from typing import Callable, Dict, List, Optional
 from soma.core.contracts.event_bus import EventBus, Subscriber, EventProducer, EventSubscriber
 from soma.core.contracts.message import Message
@@ -17,14 +18,19 @@ class InMemoryEventBus(EventBus):
     This class provides a simple event bus that allows publishing and subscribing to topics
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         """
         Initialize the InMemoryEventBus with empty queues and subscribers.
+        :param policy_manager:
         """
         self.queues: Dict[str, queue.Queue] = {}
         self.subscribers: Dict[str, List[Callable]] = {}
         self.threads: List[threading.Thread] = []
         self.running = False
+        self.policy_manager = kwargs.get("policy_manager", None)
+        self.logger = kwargs.get("logger", structlog.get_logger(__name__))
+
+        self.logger.info("InMemoryEventBus initialized", policy_manager=self.policy_manager)
 
     def publish(self, topic: str, message: Message, key: Optional[str] = None):
         """
@@ -34,6 +40,11 @@ class InMemoryEventBus(EventBus):
         :param key: Optional key for the message, used for routing or identification purposes.
         :return: None
         """
+        policy_violation = self.check_publish_policy(topic, message)
+        if policy_violation:
+            self.logger.warning(policy_violation, topic=topic, message=message)
+            return
+
         if topic not in self.queues:
             self.queues[topic] = queue.Queue()
         self.queues[topic].put(message)
@@ -45,6 +56,11 @@ class InMemoryEventBus(EventBus):
         :param handler: A callable function that will be invoked when a message is published to the topic.
         :return: None
         """
+        policy_violation = self.check_subscribe_policy(topic, handler)
+        if policy_violation:
+            self.logger.warning(policy_violation, topic=topic, handler=handler)
+            return
+
         if topic not in self.subscribers:
             self.subscribers[topic] = []
         self.subscribers[topic].append(handler)
