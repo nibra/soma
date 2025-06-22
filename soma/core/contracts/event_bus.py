@@ -8,11 +8,15 @@ from typing import Union, Callable, Optional
 import queue
 
 from soma.core.contracts.message import Message
+from soma.core.policy_manager import PolicyManager
+from soma.eventbus.metrics import RATE_LIMIT_COUNTER, RATE_LIMIT_USAGE
 
 Subscriber = Union[Callable[[dict], None], 'EventSubscriber']
 
 
 class EventBus(ABC):
+    policy_manager: Optional['PolicyManager'] = None
+
     """
     Abstract base class for event bus implementations.
     """
@@ -55,6 +59,44 @@ class EventBus(ABC):
         """
         ...
 
+    def check_publish_policy(self, topic: str, message: Message):
+        """
+        Handle policy violations for publishing or subscribing.
+        :param agent_name: The name of the agent involved in the policy violation.
+        :param topic: The topic related to the policy violation.
+        :param message: The message that caused the policy violation.
+        :return: None or a string indicating the policy violation.
+        """
+        if self.policy_manager:
+            agent_name = getattr(message, "agent_name", "anonymous_agent")
+
+            if not self.policy_manager.is_allowed(agent_name, topic, direction="publish"):
+                return f"[Policy] PUBLISH DENIED: {agent_name} not allowed to publish to '{topic}'"
+            if not self.policy_manager.enforce_rate_limit(agent_name, topic):
+                # Record metrics
+                RATE_LIMIT_COUNTER.labels(agent=agent_name, topic=topic).inc()
+                current_usage = self.policy_manager.get_usage_ratio(agent_name, topic)
+                RATE_LIMIT_USAGE.labels(agent=agent_name, topic=topic).set(current_usage)
+
+                return f"[Policy] RATE LIMIT: {agent_name} publishing too fast to '{topic}'"
+
+        return None
+
+    def check_subscribe_policy(self, topic: str, handler: 'Subscriber'):
+        """
+        Handle policy violations for subscribing.
+        :param topic: The topic related to the policy violation.
+        :param handler: The handler that caused the policy violation.
+        :return: None or a string indicating the policy violation.
+        """
+        if self.policy_manager:
+            agent_name = getattr(handler, "name", "anonymous_agent") if isinstance(handler, EventSubscriber) else getattr(
+                handler, "__name__", "unnamed_handler")
+
+            if not self.policy_manager.is_allowed(agent_name, topic, direction="subscribe"):
+                return f"[Policy] SUBSCRIBE DENIED: {agent_name} not allowed to subscribe to '{topic}'"
+
+        return None
 
 class EventProducer(ABC):
     event_bus: Optional[EventBus] = None

@@ -20,6 +20,10 @@ class Message(BaseModel):
     source ID, subject, content, timestamp, and any additional metadata.
     The `to_dict` method converts the message to a dictionary format for easy serialization.
     """
+    agent_name: str = Field(
+        None,
+        description="Name of the agent that created the message, if applicable. This is used to identify the agent in the system."
+    )
     source_type: str = Field(
         ...,
         description="Type of the message source, e.g., 'email', 'system', 'service', etc."

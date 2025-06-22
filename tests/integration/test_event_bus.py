@@ -75,12 +75,14 @@ class TestEventBus:
         bus.start()
 
         message1 = Message(
+            agent_name="agent1",
             source_type="test",
             source_id="test-message-1",
             content="This is a test message 1",
             metadata={"value": 42}
         )
         message2 = Message(
+            agent_name="agent1",
             source_type="test",
             source_id="test-message-2",
             content="This is a test message 2",

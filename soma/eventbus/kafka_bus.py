@@ -5,6 +5,7 @@
 
 import threading
 import json
+import structlog
 from kafka import KafkaConsumer, KafkaProducer
 from typing import Callable, Dict, List, Optional
 from soma.core.contracts.event_bus import EventBus, EventProducer, EventSubscriber
@@ -17,7 +18,7 @@ class KafkaEventBus(EventBus):
     KafkaEventBus: Implementation of an event bus using Apache Kafka.
     """
 
-    def __init__(self, bootstrap_servers: str, group_id: str):
+    def __init__(self, bootstrap_servers: str, group_id: str, **kwargs):
         """
         Initialize the KafkaEventBus with the given bootstrap servers and group ID.
         :param bootstrap_servers: A string representing the Kafka bootstrap servers (e.g., 'localhost:9092').
@@ -25,6 +26,9 @@ class KafkaEventBus(EventBus):
         """
         self.bootstrap_servers = bootstrap_servers
         self.group_id = group_id
+        self.policy_manager = kwargs.get("policy_manager", None)
+        self.logger = kwargs.get("logger", structlog.get_logger(__name__))
+
         self.subscribers: Dict[str, List[Callable]] = {}
         self.consumer_threads: List[threading.Thread] = []
         self.running = False
@@ -42,6 +46,8 @@ class KafkaEventBus(EventBus):
             key_serializer=lambda k: k.encode("utf-8") if k else None,
         )
 
+        self.logger.info("KafkaEventBus initialized", bootstrap_servers=self.bootstrap_servers, group_id=self.group_id, policy_manager=self.policy_manager)
+
     def publish(self, topic: str, message: Message, key: Optional[str] = None):
         """
         Publish a message to a specific topic on the Kafka event bus.
@@ -50,6 +56,11 @@ class KafkaEventBus(EventBus):
         :param key: Optional key for the message, used for routing or identification purposes.
         :return: None
         """
+        policy_violation = self.check_publish_policy(topic, message)
+        if policy_violation:
+            self.logger.warning(policy_violation, topic=topic, message=message)
+            return
+
         self.producer.send(topic, value=message.model_dump(), key=key)
         self.producer.flush()
 
@@ -60,6 +71,11 @@ class KafkaEventBus(EventBus):
         :param handler: A callable function that will be invoked when a message is published to the topic.
         :return: None
         """
+        policy_violation = self.check_subscribe_policy(topic, handler)
+        if policy_violation:
+            self.logger.warning(policy_violation, topic=topic, handler=handler)
+            return
+
         if topic not in self.subscribers:
             self.subscribers[topic] = []
         self.subscribers[topic].append(handler)
